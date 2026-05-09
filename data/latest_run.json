@@ -1,1 +1,76 @@
-{"run_id": 6, "rows": [["bunny_baseline", "sparse", "point_cloud", "chamfer", 0.5474300838691661, "{\"pred_to_gt_mean\": 0.3555017774323108, \"gt_to_pred_mean\": 0.7393583903060216, \"n_pred\": 126912, \"n_gt\": 50000}"], ["bunny_baseline", "sparse", "point_cloud", "psnr", 14.901395359053328, "{\"per_view\": [14.901395359053328], \"n_views\": 1, \"n_finite\": 1}"]], "recons": [["bunny_baseline", "sparse", "point_cloud", "{\"n_points\": 126912, \"n_views\": 7, \"voxel_size\": 0.01}"]]}
+{
+  "run_id": 15,
+  "rows": [
+    {
+      "scene": "bunny_baseline",
+      "density": "medium",
+      "method": "photogrammetry",
+      "metric": "chamfer",
+      "value": 1.6713924127227293,
+      "extra": "{\"pred_to_gt_mean\": 0.6792496260618164, \"gt_to_pred_mean\": 2.6635351993836425, \"n_pred\": 10000, \"n_gt\": 10000}"
+    },
+    {
+      "scene": "bunny_baseline",
+      "density": "medium",
+      "method": "photogrammetry",
+      "metric": "psnr",
+      "value": 4.328208678447411,
+      "extra": "{\"per_view\": [4.328208678447411], \"n_views\": 1, \"n_finite\": 1}"
+    },
+    {
+      "scene": "bunny_baseline",
+      "density": "medium",
+      "method": "point_cloud",
+      "metric": "chamfer",
+      "value": 0.6104045416392699,
+      "extra": "{\"pred_to_gt_mean\": 0.4837892774648641, \"gt_to_pred_mean\": 0.7370198058136758, \"n_pred\": 232565, \"n_gt\": 50000}"
+    },
+    {
+      "scene": "bunny_baseline",
+      "density": "medium",
+      "method": "point_cloud",
+      "metric": "psnr",
+      "value": 15.405990836570968,
+      "extra": "{\"per_view\": [15.405990836570968], \"n_views\": 1, \"n_finite\": 1}"
+    },
+    {
+      "scene": "bunny_baseline",
+      "density": "sparse",
+      "method": "point_cloud",
+      "metric": "chamfer",
+      "value": 0.548323614184141,
+      "extra": "{\"pred_to_gt_mean\": 0.35734250852415617, \"gt_to_pred_mean\": 0.7393047198441259, \"n_pred\": 123639, \"n_gt\": 50000}"
+    },
+    {
+      "scene": "bunny_baseline",
+      "density": "sparse",
+      "method": "point_cloud",
+      "metric": "psnr",
+      "value": 12.392768911727527,
+      "extra": "{\"per_view\": [12.392768911727527], \"n_views\": 1, \"n_finite\": 1}"
+    }
+  ],
+  "recons": [
+    {
+      "scene": "bunny_baseline",
+      "density": "medium",
+      "method": "photogrammetry",
+      "artifact_dir": "C:\\Users\\Owner\\Documents\\Claude\\Projects\\spiral 3d\\results\\artifacts\\bunny_baseline\\medium\\photogrammetry",
+      "metadata": "{\"n_sparse_points\": 1574, \"n_vertices\": 5290, \"n_faces\": 10520, \"poisson_depth\": 8, \"alignment_scale\": 0.3645919283080591, \"alignment_paired_views\": 17}"
+    },
+    {
+      "scene": "bunny_baseline",
+      "density": "medium",
+      "method": "point_cloud",
+      "artifact_dir": "C:\\Users\\Owner\\Documents\\Claude\\Projects\\spiral 3d\\results\\artifacts\\bunny_baseline\\medium\\point_cloud",
+      "metadata": "{\"n_points\": 232565, \"n_views\": 23, \"voxel_size\": 0.01}"
+    },
+    {
+      "scene": "bunny_baseline",
+      "density": "sparse",
+      "method": "point_cloud",
+      "artifact_dir": "C:\\Users\\Owner\\Documents\\Claude\\Projects\\spiral 3d\\results\\artifacts\\bunny_baseline\\sparse\\point_cloud",
+      "metadata": "{\"n_points\": 123639, \"n_views\": 7, \"voxel_size\": 0.01}"
+    }
+  ]
+}

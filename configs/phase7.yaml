@@ -1,0 +1,26 @@
+# Phase 7 config: bunny baseline at sparse + medium densities,
+# point_cloud and photogrammetry side-by-side.
+
+seed: 42
+
+scenes:
+  - name: bunny_baseline
+    enabled: true
+    densities: [sparse, medium]
+
+methods:
+  - point_cloud
+  - photogrammetry
+
+metrics:
+  geometric: [chamfer]
+  visual: [psnr]
+  resource: []
+  affordance: []
+
+output:
+  results_db: results/spiral.db
+  artifacts_dir: results/artifacts
+  figures_dir: results/figures
+  scenes_dir: scenes
+  captures_dir: results/captures

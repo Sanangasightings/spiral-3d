@@ -31,16 +31,22 @@ def ensure_scene(
     seed: int,
     blender_bin: str = "blender",
 ) -> Path:
-    """Ensure `<scene_dir>/manifest.json` exists. Return its path.
+    """Ensure `<scene_dir>/manifest.json` exists AND covers `densities`.
 
-    If missing, launches headless Blender to generate. If Blender is
-    unavailable the call raises FileNotFoundError with a clear message
-    so the orchestrator can mark the stage skipped without dying.
+    A cached manifest from an earlier run with a narrower density list
+    triggers regeneration — otherwise the capture step would silently
+    skip the missing densities.
     """
     manifest_path = scene_dir / "manifest.json"
     if manifest_path.exists():
-        log.info("scene cached: %s", manifest_path)
-        return manifest_path
+        manifest = SceneManifest.read(manifest_path)
+        missing = [d for d in densities if d not in manifest.cameras]
+        if not missing:
+            log.info("scene cached: %s", manifest_path)
+            return manifest_path
+        log.info(
+            "scene manifest missing densities %s, regenerating", missing
+        )
 
     scene_dir.mkdir(parents=True, exist_ok=True)
     cmd = blender_command(spec, scene_dir, densities, seed, blender_bin)

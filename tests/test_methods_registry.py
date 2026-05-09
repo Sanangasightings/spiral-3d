@@ -34,11 +34,13 @@ def test_unknown_method_raises():
         get_method("does_not_exist")
 
 
+IMPLEMENTED = {"point_cloud", "photogrammetry"}
+
+
 def test_unimplemented_methods_raise_not_implemented():
-    """All methods except point_cloud are stubs through Phase 7. Each
-    one's fit should still raise NotImplementedError without crashing
+    """The remaining stubs raise NotImplementedError without crashing
     on import or instantiation."""
-    for name in EXPECTED - {"point_cloud"}:
+    for name in EXPECTED - IMPLEMENTED:
         m = get_method(name)
         with pytest.raises(NotImplementedError):
             m.fit([], MethodConfig())

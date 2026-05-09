@@ -8,6 +8,7 @@ from typing import Any, Optional
 
 import numpy as np
 
+from ._splat import splat_render
 from .base import (
     Camera,
     Capture,
@@ -66,24 +67,6 @@ def _camera_to_world(points_cam: np.ndarray, extrinsics: np.ndarray) -> np.ndarr
     )
     world = homog @ cam_to_world.T
     return world[:, :3]
-
-
-def _project(
-    points_world: np.ndarray, camera: Camera
-) -> tuple[np.ndarray, np.ndarray]:
-    """Project (N, 3) world points to (N, 2) pixels and (N,) depths."""
-    homog = np.concatenate(
-        [points_world, np.ones((points_world.shape[0], 1))], axis=-1
-    )
-    cam = homog @ camera.extrinsics.T
-    cam = cam[:, :3]
-    depths = cam[:, 2]
-    valid = depths > 1e-6
-    pix = np.zeros((points_world.shape[0], 2))
-    pix[valid] = (cam[valid, :2] / depths[valid, None]) @ camera.intrinsics[
-        :2, :2
-    ].T + camera.intrinsics[:2, 2]
-    return pix, depths
 
 
 @register("point_cloud")
@@ -210,33 +193,6 @@ class PointCloudMethod(Method):
                 f"PointCloudMethod.render expects PointCloudReconstruction, "
                 f"got {type(reconstruction).__name__}"
             )
-        H, W = camera.height, camera.width
-        canvas = np.zeros((H, W, 3), dtype=np.float32)
-        zbuf = np.full((H, W), np.inf, dtype=np.float64)
-
-        pix, depths = _project(reconstruction.points, camera)
-        valid = (
-            (depths > 1e-6)
-            & (pix[:, 0] >= 0)
-            & (pix[:, 0] < W)
-            & (pix[:, 1] >= 0)
-            & (pix[:, 1] < H)
+        return splat_render(
+            reconstruction.points, reconstruction.colors, camera, radius=2
         )
-        pix = pix[valid]
-        depths = depths[valid]
-        colors = (
-            reconstruction.colors[valid]
-            if reconstruction.colors is not None
-            else np.full((pix.shape[0], 3), 0.5)
-        )
-
-        radius = 2  # default splat radius in pixels
-        for (u, v), z, c in zip(pix, depths, colors):
-            iu, iv = int(round(u)), int(round(v))
-            for du in range(-radius, radius + 1):
-                for dv in range(-radius, radius + 1):
-                    x, y = iu + du, iv + dv
-                    if 0 <= x < W and 0 <= y < H and z < zbuf[y, x]:
-                        zbuf[y, x] = z
-                        canvas[y, x] = c
-        return Image(pixels=canvas)

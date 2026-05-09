@@ -57,8 +57,8 @@ def _parse() -> argparse.Namespace:
     p.add_argument("--densities", type=str, default="sparse,medium,dense")
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--bunny-ply", type=Path, default=None)
-    p.add_argument("--width", type=int, default=640)
-    p.add_argument("--height", type=int, default=480)
+    p.add_argument("--width", type=int, default=1024)
+    p.add_argument("--height", type=int, default=768)
     return p.parse_args(_split_args())
 
 
@@ -109,8 +109,9 @@ def _build_scene(args: argparse.Namespace):
     scene.render.resolution_x = args.width
     scene.render.resolution_y = args.height
     scene.render.engine = "CYCLES"
-    # 16 samples is fine for our flat-lit baseline; bump for paper figures.
-    scene.cycles.samples = 16
+    # 32 samples gives clean enough renders at 1024x768 that SfM finds
+    # plenty of features. Bump higher (128–256) for paper figures.
+    scene.cycles.samples = 32
 
     # --- Subject ---
     if args.bunny_ply and args.bunny_ply.exists():
@@ -134,6 +135,22 @@ def _build_scene(args: argparse.Namespace):
         mod = subject.modifiers.new("subdiv", "SUBSURF")
         mod.levels = 2
         mod.render_levels = 3
+
+        # Subject material: high-contrast checker, same shader as the
+        # floor. A plain or low-frequency-noise sphere was starving SfM
+        # of correspondences and breaking COLMAP's initial-pair search.
+        # The checker gives every viewpoint dozens of crisp corners.
+        sub_mat = bpy.data.materials.new("subject_mat")
+        sub_mat.use_nodes = True
+        sub_bsdf = sub_mat.node_tree.nodes["Principled BSDF"]
+        sub_checker = sub_mat.node_tree.nodes.new("ShaderNodeTexChecker")
+        sub_checker.inputs["Scale"].default_value = 18.0
+        sub_checker.inputs["Color1"].default_value = (0.92, 0.88, 0.78, 1.0)
+        sub_checker.inputs["Color2"].default_value = (0.18, 0.10, 0.05, 1.0)
+        sub_mat.node_tree.links.new(
+            sub_bsdf.inputs["Base Color"], sub_checker.outputs["Color"]
+        )
+        subject.data.materials.append(sub_mat)
 
     # --- Floor with checker texture ---
     bpy.ops.mesh.primitive_plane_add(size=4.0, location=(0.0, 0.0, 0.0))

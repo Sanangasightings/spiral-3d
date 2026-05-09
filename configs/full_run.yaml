@@ -1,0 +1,28 @@
+# Full pipeline run config.
+# Phase 1: stub. Real fields land as later phases wire them in.
+
+seed: 42
+
+scenes:
+  - name: bunny_baseline
+    enabled: true
+    densities: [sparse, medium, dense]
+
+methods:
+  - point_cloud
+  - photogrammetry
+  - mvs
+  - nerf
+  - gaussian_splatting
+  - sdf
+
+metrics:
+  geometric: [chamfer, hausdorff, normal_consistency, f_score]
+  visual: [psnr, ssim, lpips]
+  resource: [disk_size, peak_memory, train_time, render_time]
+  affordance: [primitive_count, relighting, differentiable, mesh_export]
+
+output:
+  results_db: results/spiral.db
+  artifacts_dir: results/artifacts
+  figures_dir: results/figures

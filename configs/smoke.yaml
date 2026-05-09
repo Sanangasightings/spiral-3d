@@ -1,0 +1,26 @@
+# Smoke-test config: bunny baseline at sparse density only, point cloud only.
+# The full configs/full_run.yaml is the paper config; this is the
+# "does the whole pipeline still work" config.
+
+seed: 42
+
+scenes:
+  - name: bunny_baseline
+    enabled: true
+    densities: [sparse]
+
+methods:
+  - point_cloud
+
+metrics:
+  geometric: [chamfer]
+  visual: [psnr]
+  resource: []
+  affordance: []
+
+output:
+  results_db: results/spiral.db
+  artifacts_dir: results/artifacts
+  figures_dir: results/figures
+  scenes_dir: scenes
+  captures_dir: results/captures

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Spiral Sandbox — bunny_baseline / sparse</title>
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+<style>
+  :root {
+    --fg: #1a1a1a;
+    --muted: #666;
+    --bg: #fafaf7;
+    --card: #fff;
+    --line: #e5e5e0;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    padding: 1rem;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 1.5rem; margin: 0 0 .25rem 0; }
+  h2 { font-size: 1.1rem; margin: 1.5rem 0 .5rem 0; }
+  p { color: var(--muted); margin: 0 0 1rem 0; }
+  .pill {
+    display: inline-block; padding: 2px 8px; font-size: 12px;
+    background: #eee; border-radius: 999px; color: #333;
+  }
+  model-viewer {
+    width: 100%; height: 60vh; max-height: 480px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+  }
+  .gallery {
+    display: grid; gap: 6px;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+  .gallery img {
+    width: 100%; aspect-ratio: 4/3; object-fit: cover;
+    border-radius: 6px; background: #ddd;
+  }
+  table { width: 100%; border-collapse: collapse; background: var(--card);
+          border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--line); font-size: 14px; }
+  th { background: #f5f5ef; font-weight: 600; }
+  tr:last-child td { border-bottom: none; }
+  td.num { font-variant-numeric: tabular-nums; text-align: right; }
+  a { color: #0a66c2; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  details { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; }
+  summary { cursor: pointer; font-weight: 600; }
+  code { background: #f0f0e8; padding: 1px 5px; border-radius: 3px; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<h1>Spiral Sandbox</h1>
+<p>
+  Comparative 3D reconstruction sandbox for the
+  <em>Perspective as Trade</em> paper. This page is the mobile-viewable
+  digest of the latest pipeline run.
+  <span class="pill">run #6</span>
+  <span class="pill">2026-05-08</span>
+</p>
+
+<h2>Ground-truth scene</h2>
+<p>Subdivided UV sphere on a textured plane. Pinch to zoom, drag to rotate.</p>
+<model-viewer
+  src="models/bunny.glb"
+  alt="Ground-truth scene mesh"
+  camera-controls
+  auto-rotate
+  shadow-intensity="0.6"
+  exposure="1.0"
+  ar
+  ar-modes="webxr scene-viewer quick-look">
+</model-viewer>
+
+<h2>Captures — bunny_baseline / sparse</h2>
+<p>Eight rendered viewpoints feeding the methods. The point-cloud method trained on seven; the eighth was held out for visual-fidelity scoring.</p>
+<div class="gallery">
+  <img src="figures/sparse_000.png" alt="capture 0">
+  <img src="figures/sparse_001.png" alt="capture 1">
+  <img src="figures/sparse_002.png" alt="capture 2">
+  <img src="figures/sparse_003.png" alt="capture 3">
+  <img src="figures/sparse_004.png" alt="capture 4">
+  <img src="figures/sparse_005.png" alt="capture 5">
+  <img src="figures/sparse_006.png" alt="capture 6">
+  <img src="figures/sparse_007.png" alt="capture 7">
+</div>
+
+<h2>Metrics</h2>
+<table>
+  <thead>
+    <tr><th>Scene</th><th>Density</th><th>Method</th><th>Metric</th><th class="num">Value</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>bunny_baseline</td><td>sparse</td><td>point_cloud</td><td>chamfer</td><td class="num">0.5474</td></tr>
+    <tr><td>bunny_baseline</td><td>sparse</td><td>point_cloud</td><td>psnr</td><td class="num">14.90 dB</td></tr>
+  </tbody>
+</table>
+
+<details style="margin-top: 8px;">
+  <summary>What the chamfer asymmetry means</summary>
+  <p style="margin-top: 8px;">
+    Pred → GT mean: <code>0.356</code>. GT → pred mean: <code>0.739</code>.
+    The cameras orbit at radius 2.5m and only see part of the 4m floor;
+    GT samples on the unseen edges have no nearby predicted point. The
+    asymmetry is reading the method's <em>coverage</em>, not its
+    <em>faithfulness</em>. Three ways to handle: trim the floor in the
+    scene, mask GT to the visible region via camera frustums, or accept
+    the asymmetric metric as real signal. Open methodology question —
+    see <code>docs/open_questions.md</code>.
+  </p>
+</details>
+
+<h2>Browse the results database</h2>
+<p>
+  The full SQLite store is published as a static asset and queryable
+  in-browser via Datasette-Lite — runs cleanly on phone:
+</p>
+<p>
+  <a href="https://lite.datasette.io/?url=./data/spiral.db" target="_blank">
+    Open spiral.db in Datasette-Lite ↗
+  </a>
+</p>
+<p>
+  Or grab the file directly:
+  <a href="data/spiral.db">spiral.db</a> ·
+  <a href="data/latest_run.json">latest_run.json</a>
+</p>
+
+<h2>Status</h2>
+<p>
+  Phases 1–6 of the project plan are in. <code>point_cloud</code> runs
+  end-to-end; the other five methods (photogrammetry, MVS, NeRF, 3DGS,
+  SDF) are interface stubs awaiting Phase 7. Mobile-viewability is the
+  hosting constraint — see <code>docs/decisions/0001-hosting-stack.md</code>.
+</p>
+
+</body>
+</html>

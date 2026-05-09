@@ -1,0 +1,31 @@
+results/
+!results/.gitkeep
+!results/figures/
+
+# Generated scene artifacts (regenerable from configs/)
+scenes/bunny_baseline/*.blend
+scenes/bunny_baseline/*.obj
+scenes/bunny_baseline/manifest.json
+
+.pytest_cache/
+
+# telegram channel: secrets + runtime state, not source
+telegram/.env
+telegram/bot.pid
+telegram/inbox/
+telegram/approved/
+telegram/access.json
+telegram/server/node_modules/
+telegram/server/bun.lock
+
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.env
+
+*.blend1
+*.blend2
+
+.DS_Store
+Thumbs.db

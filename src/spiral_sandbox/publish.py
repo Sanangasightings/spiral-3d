@@ -100,20 +100,73 @@ def _render_metric_table(rows: list[dict[str, Any]]) -> str:
     return "\n".join(out)
 
 
-def _render_gallery(figures: dict[str, list[str]]) -> str:
-    """HTML <figure> blocks per (scene, density)."""
+def _render_scene_sections(
+    scenes: list[str],
+    figures: dict[str, list[str]],
+    method_models: dict[str, list[tuple[str, str, str]]],
+    rows: list[dict[str, Any]],
+) -> str:
+    """One card per scene: GT viewer, reconstruction viewers (one per
+    available method/density mesh), four sample captures, scene metrics
+    sub-table. `method_models[scene]` is a list of (density, method,
+    glb_relpath) for reconstructed-method meshes published in this run."""
     out = []
-    for k in sorted(figures):
-        names = figures[k]
-        if not names:
-            continue
-        scene, density = k.split("/", 1)
-        out.append(f'<h3 style="margin-bottom: .25rem;">{scene} / {density} '
-                   f'<span class="pill">{len(names)} views</span></h3>')
-        out.append('<div class="gallery">')
-        for n in names:
-            out.append(f'  <img src="figures/{n}" alt="{n}" loading="lazy">')
-        out.append("</div>")
+    for scene in scenes:
+        out.append(f'<section class="scene-card"><h2>{scene}</h2>')
+        # 3D viewers row
+        out.append('<div class="viewers">')
+        out.append(
+            f'<figure><figcaption>Ground truth</figcaption>'
+            f'<model-viewer src="models/{scene}_gt.glb" '
+            f'alt="{scene} GT" camera-controls auto-rotate '
+            f'shadow-intensity="0.4" exposure="1.0"></model-viewer></figure>'
+        )
+        for density, method, glb in method_models.get(scene, []):
+            out.append(
+                f'<figure><figcaption>{method} / {density}</figcaption>'
+                f'<model-viewer src="models/{glb}" '
+                f'alt="{scene} {method} {density}" camera-controls '
+                f'auto-rotate shadow-intensity="0.4" '
+                f'exposure="1.0"></model-viewer></figure>'
+            )
+        out.append('</div>')
+        # Sample captures (first 4 per density)
+        for k in sorted(k for k in figures if k.startswith(f"{scene}/")):
+            density = k.split("/", 1)[1]
+            names = figures[k][:4]
+            if not names:
+                continue
+            out.append(
+                f'<p style="font-size: 13px; margin: 8px 0 4px;">'
+                f'{density} captures '
+                f'<span class="pill">{len(figures[k])} total</span></p>'
+            )
+            out.append('<div class="gallery sample">')
+            for n in names:
+                out.append(
+                    f'  <img src="figures/{n}" alt="{n}" loading="lazy">'
+                )
+            out.append('</div>')
+        # Scene-specific metric mini-table
+        scene_rows = [r for r in rows if r["scene"] == scene]
+        if scene_rows:
+            out.append('<table>')
+            out.append(
+                '<thead><tr><th>Density</th><th>Method</th>'
+                '<th>Metric</th><th class="num">Value</th></tr></thead>'
+            )
+            out.append('<tbody>')
+            for r in sorted(scene_rows,
+                            key=lambda r: (r["density"], r["method"], r["metric"])):
+                v = r["value"]
+                v_fmt = "—" if v is None else f"{v:.4f}"
+                out.append(
+                    f'<tr><td>{r["density"]}</td><td>{r["method"]}</td>'
+                    f'<td>{r["metric"]}</td>'
+                    f'<td class="num">{v_fmt}</td></tr>'
+                )
+            out.append('</tbody></table>')
+        out.append('</section>')
     return "\n".join(out)
 
 
@@ -131,17 +184,22 @@ INDEX_TEMPLATE = """<!doctype html>
   body {{
     font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
     color: var(--fg); background: var(--bg);
-    padding: 1rem; max-width: 880px; margin: 0 auto;
+    padding: 1rem; max-width: 980px; margin: 0 auto;
   }}
   h1 {{ font-size: 1.5rem; margin: 0 0 .25rem 0; }}
-  h2 {{ font-size: 1.1rem; margin: 1.5rem 0 .5rem 0; }}
+  h2 {{ font-size: 1.2rem; margin: 0 0 .5rem 0; }}
   p {{ color: var(--muted); margin: 0 0 1rem 0; }}
   .pill {{ display: inline-block; padding: 2px 8px; font-size: 12px; background: #eee; border-radius: 999px; color: #333; }}
-  model-viewer {{ width: 100%; height: 56vh; max-height: 480px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; }}
-  .gallery {{ display: grid; gap: 6px; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }}
+  .scene-card {{ background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin: 16px 0; }}
+  .viewers {{ display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-bottom: 8px; }}
+  .viewers figure {{ margin: 0; }}
+  .viewers figcaption {{ font-size: 12px; color: var(--muted); margin-bottom: 4px; }}
+  model-viewer {{ width: 100%; height: 38vh; max-height: 360px; background: #f7f7f1; border: 1px solid var(--line); border-radius: 6px; }}
+  .gallery {{ display: grid; gap: 6px; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }}
+  .gallery.sample {{ grid-template-columns: repeat(4, 1fr); }}
   .gallery img {{ width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 6px; background: #ddd; }}
-  table {{ width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }}
-  th, td {{ padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--line); font-size: 14px; }}
+  table {{ width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-top: 10px; }}
+  th, td {{ padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--line); font-size: 13px; }}
   th {{ background: #f5f5ef; font-weight: 600; }}
   tr:last-child td {{ border-bottom: none; }}
   td.num {{ font-variant-numeric: tabular-nums; text-align: right; }}
@@ -157,20 +215,13 @@ INDEX_TEMPLATE = """<!doctype html>
 <h1>Spiral Sandbox</h1>
 <p>
   Comparative 3D reconstruction sandbox for the <em>Perspective as Trade</em> paper.
+  One card per scene: ground truth, reconstructions, sample captures, scene-local metric table.
   <span class="pill">run #{run_id}</span>
 </p>
 
-<h2>Ground-truth scene</h2>
-<p>The synthetic baseline. Pinch to zoom, drag to rotate.</p>
-<model-viewer src="models/bunny_baseline_gt.glb"
-  alt="Ground-truth bunny baseline scene"
-  camera-controls auto-rotate shadow-intensity="0.6" exposure="1.0"
-  ar ar-modes="webxr scene-viewer quick-look"></model-viewer>
+{scene_sections}
 
-<h2>Captures</h2>
-{gallery_html}
-
-<h2>Metrics</h2>
+<h2>Full comparative table</h2>
 <table>
   <thead>
     <tr><th>Scene</th><th>Density</th><th>Method</th><th>Metric</th><th class="num">Value</th></tr>
@@ -180,7 +231,7 @@ INDEX_TEMPLATE = """<!doctype html>
   </tbody>
 </table>
 
-<details style="margin-top: 8px;">
+<details style="margin-top: 12px;">
   <summary>Reading the comparative table</summary>
   <p style="margin-top: 8px;">
     Lower chamfer is better (units = scene meters); higher PSNR is better (dB).
@@ -188,11 +239,12 @@ INDEX_TEMPLATE = """<!doctype html>
     Poisson mesh is built from only the sparse SfM cloud, so its surface
     quality is bounded by SfM cloud density. The asymmetric chamfer
     (pred→GT vs GT→pred) reflects predicted-coverage gaps; see
-    <code>docs/open_questions.md</code>.
+    <code>docs/open_questions.md</code>. Photogrammetry coordinates are
+    aligned to GT via Umeyama similarity using paired camera centers.
   </p>
 </details>
 
-<h2>Browse the results database</h2>
+<h2 style="margin-top: 14px;">Browse the results database</h2>
 <p>
   <a href="https://lite.datasette.io/?url=https://sanangasightings.github.io/spiral-3d/data/spiral.db" target="_blank">
     Open spiral.db in Datasette-Lite ↗
@@ -239,7 +291,8 @@ def main() -> int:
 
     # Ground-truth GLB per scene.
     scenes_dir = repo_root / "scenes"
-    for scene_dir in scenes_dir.iterdir():
+    scenes_found: list[str] = []
+    for scene_dir in sorted(scenes_dir.iterdir()):
         if not scene_dir.is_dir():
             continue
         gt_obj = scene_dir / "ground_truth.obj"
@@ -249,14 +302,46 @@ def main() -> int:
                     args.blender_bin, gt_obj,
                     site / "models" / f"{scene_dir.name}_gt.glb",
                 )
+                scenes_found.append(scene_dir.name)
             except subprocess.CalledProcessError as exc:
                 print(f"GLB convert failed for {gt_obj}: {exc.stderr}",
                       file=sys.stderr)
 
+    # Reconstructed-method meshes (currently only photogrammetry).
+    method_models: dict[str, list[tuple[str, str, str]]] = {}
+    artifacts_dir = repo_root / "results" / "artifacts"
+    if artifacts_dir.exists():
+        for scene_dir in sorted(artifacts_dir.iterdir()):
+            for density_dir in sorted(scene_dir.iterdir()):
+                for method_dir in sorted(density_dir.iterdir()):
+                    mesh_obj = method_dir / "mesh.obj"
+                    if not mesh_obj.exists():
+                        continue
+                    glb_name = (
+                        f"{scene_dir.name}_{density_dir.name}_"
+                        f"{method_dir.name}.glb"
+                    )
+                    try:
+                        _convert_obj_to_glb(
+                            args.blender_bin, mesh_obj,
+                            site / "models" / glb_name,
+                        )
+                        method_models.setdefault(scene_dir.name, []).append(
+                            (density_dir.name, method_dir.name, glb_name)
+                        )
+                    except subprocess.CalledProcessError as exc:
+                        print(
+                            f"GLB convert failed for {mesh_obj}: "
+                            f"{exc.stderr}",
+                            file=sys.stderr,
+                        )
+
     (site / "index.html").write_text(
         INDEX_TEMPLATE.format(
             run_id=rid,
-            gallery_html=_render_gallery(figures),
+            scene_sections=_render_scene_sections(
+                scenes_found, figures, method_models, rows
+            ),
             metric_rows=_render_metric_table(rows),
         ),
         encoding="utf-8",

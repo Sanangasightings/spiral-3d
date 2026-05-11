@@ -4,7 +4,19 @@
 seed: 42
 
 scenes:
-  - name: bunny_baseline
+  - name: sphere_baseline
+    enabled: true
+    densities: [sparse, medium, dense]
+  - name: stanford_bunny
+    enabled: true
+    densities: [sparse, medium, dense]
+  - name: knot
+    enabled: true
+    densities: [sparse, medium, dense]
+  - name: monkey
+    enabled: true
+    densities: [sparse, medium, dense]
+  - name: damaged_helmet
     enabled: true
     densities: [sparse, medium, dense]
 

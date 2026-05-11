@@ -9,7 +9,9 @@ REPO = Path(__file__).resolve().parent.parent
 def test_full_run_yaml_loads():
     cfg = RunConfig.load(REPO / "configs" / "full_run.yaml")
     assert cfg.seed == 42
-    assert [s.name for s in cfg.scenes] == ["bunny_baseline"]
+    names = [s.name for s in cfg.scenes]
+    assert "sphere_baseline" in names
+    assert "stanford_bunny" in names
     assert "point_cloud" in cfg.methods
     assert "chamfer" in cfg.metrics.geometric
     assert "psnr" in cfg.metrics.visual
@@ -25,7 +27,8 @@ def test_resolve_paths_makes_paths_absolute(tmp_path):
 
 def test_enabled_scenes_filters_disabled():
     cfg = RunConfig.load(REPO / "configs" / "full_run.yaml")
-    cfg.scenes[0].enabled = False
+    for s in cfg.scenes:
+        s.enabled = False
     assert cfg.enabled_scenes() == []
 
 

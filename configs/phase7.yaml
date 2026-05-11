@@ -1,10 +1,22 @@
-# Phase 7 config: bunny baseline at sparse + medium densities,
-# point_cloud and photogrammetry side-by-side.
+# Phase 7 catalog: all five baseline subjects at sparse + medium
+# densities, point_cloud and photogrammetry side-by-side.
 
 seed: 42
 
 scenes:
-  - name: bunny_baseline
+  - name: sphere_baseline
+    enabled: true
+    densities: [sparse, medium]
+  - name: stanford_bunny
+    enabled: true
+    densities: [sparse, medium]
+  - name: knot
+    enabled: true
+    densities: [sparse, medium]
+  - name: monkey
+    enabled: true
+    densities: [sparse, medium]
+  - name: damaged_helmet
     enabled: true
     densities: [sparse, medium]
 

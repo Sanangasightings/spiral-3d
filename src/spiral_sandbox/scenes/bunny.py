@@ -1,24 +1,26 @@
-"""Bunny baseline scene generator.
+"""Subject-on-floor scene generator.
 
 Designed to run inside headless Blender:
 
     blender --background --python src/spiral_sandbox/scenes/bunny.py -- \
-        --output scenes/bunny_baseline \
+        --output scenes/<scene_name> \
         --densities sparse,medium,dense \
         --seed 42 \
-        [--bunny-ply path/to/bunny.ply]
+        [--subject-mesh path/to/mesh.{ply,obj,glb,gltf}] \
+        [--scene-name <name>]
 
 Outputs:
 
-    <output>/bunny_baseline.blend
+    <output>/<scene_name>.blend
     <output>/ground_truth.obj
     <output>/manifest.json     # SceneManifest
 
-The "bunny" mesh defaults to a high-resolution subdivided UV sphere so
-the script runs without external assets — the Stanford bunny .ply can be
-swapped in via --bunny-ply once Zach has it on disk. The scene is a
-single mesh on a textured plane lit by one area light: well-conditioned
-input, the baseline against which every other scene's stress test reads.
+When no `--subject-mesh` is given the subject is a checker-textured UV
+sphere — that's the `sphere_baseline` smoke-test scene. Otherwise the
+subject is imported from disk (PLY / OBJ / GLB / glTF), auto-normalized
+to a unit-ish size, and placed on the standard textured floor with one
+area light. The same scaffolding is used for every catalog scene; the
+only variable is the subject.
 """
 
 from __future__ import annotations
@@ -52,14 +54,25 @@ def _split_args() -> list[str]:
 
 
 def _parse() -> argparse.Namespace:
-    p = argparse.ArgumentParser(prog="bunny_scene")
+    p = argparse.ArgumentParser(prog="subject_scene")
     p.add_argument("--output", type=Path, required=True)
     p.add_argument("--densities", type=str, default="sparse,medium,dense")
     p.add_argument("--seed", type=int, default=42)
+    # --subject-mesh is the new generic flag; --bunny-ply is kept as an
+    # alias because earlier configs and the README reference it.
+    p.add_argument("--subject-mesh", type=Path, default=None)
     p.add_argument("--bunny-ply", type=Path, default=None)
+    p.add_argument(
+        "--scene-name", type=str, default="bunny_baseline",
+        help="Name written into the scene manifest + used for the .blend "
+        "filename.",
+    )
     p.add_argument("--width", type=int, default=1024)
     p.add_argument("--height", type=int, default=768)
-    return p.parse_args(_split_args())
+    args = p.parse_args(_split_args())
+    if args.subject_mesh is None and args.bunny_ply is not None:
+        args.subject_mesh = args.bunny_ply
+    return args
 
 
 DENSITY_VIEWS = {"sparse": 8, "medium": 24, "dense": 64}
@@ -101,6 +114,83 @@ def _world_to_camera(camera) -> list[list[float]]:
     return [list(row) for row in m]
 
 
+def _import_subject_mesh(path):
+    """Dispatch on file extension. Each format pulls in different material
+    semantics: PLY has none, OBJ has optional .mtl, glTF/GLB has full PBR."""
+    import bpy
+
+    ext = path.suffix.lower()
+    if ext == ".ply":
+        bpy.ops.wm.ply_import(filepath=str(path))
+    elif ext == ".obj":
+        bpy.ops.wm.obj_import(filepath=str(path))
+    elif ext in (".glb", ".gltf"):
+        bpy.ops.import_scene.gltf(filepath=str(path))
+    else:
+        raise ValueError(
+            f"Unsupported subject mesh extension '{ext}'. "
+            f"Supported: .ply, .obj, .glb, .gltf"
+        )
+
+
+def _normalize_and_place(obj):
+    """Scale to fit in a unit cube and translate so it sits on the floor
+    (z=0) — common frame so the camera rig is shared across scenes."""
+    import bpy
+
+    max_dim = max(obj.dimensions)
+    if max_dim > 0:
+        scale = 1.0 / max_dim
+        obj.scale = (scale, scale, scale)
+    bpy.ops.object.select_all(action="DESELECT")
+    obj.select_set(True)
+    bpy.context.view_layer.objects.active = obj
+    bpy.ops.object.transform_apply(
+        location=False, rotation=False, scale=True
+    )
+    # Move the bottom of the bounding box to z=0 so the subject sits on
+    # the floor regardless of where the mesh's origin was authored.
+    import mathutils
+    corners = [
+        obj.matrix_world @ mathutils.Vector(c) for c in obj.bound_box
+    ]
+    bbox_min_z = min(c.z for c in corners)
+    bbox_center_xy = (
+        sum(c.x for c in corners) / 8.0,
+        sum(c.y for c in corners) / 8.0,
+    )
+    obj.location = (
+        obj.location.x - bbox_center_xy[0],
+        obj.location.y - bbox_center_xy[1],
+        obj.location.z - bbox_min_z,
+    )
+
+
+def _apply_fallback_material_if_needed(obj):
+    """If the imported mesh has no materials, slap on the same Voronoi
+    pattern the sphere uses — SfM needs surface features and the bare
+    PLY meshes (BunnyMesh / KnotMesh / ArmadilloMesh) have none."""
+    import bpy
+
+    has_material = any(slot.material is not None for slot in obj.material_slots)
+    if has_material:
+        return
+    mat = bpy.data.materials.new(f"{obj.name}_fallback")
+    mat.use_nodes = True
+    bsdf = mat.node_tree.nodes["Principled BSDF"]
+    tex_coord = mat.node_tree.nodes.new("ShaderNodeTexCoord")
+    voronoi = mat.node_tree.nodes.new("ShaderNodeTexVoronoi")
+    voronoi.inputs["Scale"].default_value = 40.0
+    ramp = mat.node_tree.nodes.new("ShaderNodeValToRGB")
+    ramp.color_ramp.elements[0].color = (0.90, 0.85, 0.78, 1.0)
+    ramp.color_ramp.elements[1].color = (0.22, 0.16, 0.10, 1.0)
+    links = mat.node_tree.links
+    links.new(tex_coord.outputs["Generated"], voronoi.inputs["Vector"])
+    links.new(voronoi.outputs["Distance"], ramp.inputs["Fac"])
+    links.new(ramp.outputs["Color"], bsdf.inputs["Base Color"])
+    obj.data.materials.append(mat)
+
+
 def _build_scene(args: argparse.Namespace):
     import bpy
 
@@ -114,17 +204,26 @@ def _build_scene(args: argparse.Namespace):
     scene.cycles.samples = 32
 
     # --- Subject ---
-    if args.bunny_ply and args.bunny_ply.exists():
-        bpy.ops.wm.ply_import(filepath=str(args.bunny_ply))
-        subject = bpy.context.selected_objects[0]
-        subject.name = "bunny"
-        # Normalize size and place at origin.
-        max_dim = max(subject.dimensions)
-        if max_dim > 0:
-            scale = 1.0 / max_dim
-            subject.scale = (scale, scale, scale)
-        bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
-        subject.location = (0.0, 0.0, 0.5)
+    if args.subject_mesh and args.subject_mesh.exists():
+        _import_subject_mesh(args.subject_mesh)
+        # Collect every imported mesh (multi-part .glb / .gltf import as
+        # several objects). Join them so subsequent ops have one target.
+        meshes = [o for o in bpy.context.scene.objects if o.type == "MESH"
+                  and o.name not in ("floor",)]
+        if not meshes:
+            raise RuntimeError(
+                f"No mesh objects imported from {args.subject_mesh}"
+            )
+        if len(meshes) > 1:
+            bpy.ops.object.select_all(action="DESELECT")
+            for m in meshes:
+                m.select_set(True)
+            bpy.context.view_layer.objects.active = meshes[0]
+            bpy.ops.object.join()
+        subject = bpy.context.view_layer.objects.active
+        subject.name = "subject"
+        _normalize_and_place(subject)
+        _apply_fallback_material_if_needed(subject)
     else:
         bpy.ops.mesh.primitive_uv_sphere_add(
             segments=64, ring_count=32, radius=0.5, location=(0.0, 0.0, 0.5)
@@ -249,7 +348,7 @@ def main() -> int:
 
     scene, subject, floor, light, cam = _build_scene(args)
 
-    blend_path = args.output / "bunny_baseline.blend"
+    blend_path = args.output / f"{args.scene_name}.blend"
     bpy.ops.wm.save_as_mainfile(filepath=str(blend_path))
 
     gt_mesh_path = args.output / "ground_truth.obj"
@@ -257,8 +356,13 @@ def main() -> int:
 
     cameras = _collect_cameras(args, scene, cam)
 
+    subject_note = (
+        f"subject loaded from {args.subject_mesh.name}"
+        if args.subject_mesh
+        else "subdivided UV sphere primitive"
+    )
     manifest = SceneManifest(
-        name="bunny_baseline",
+        name=args.scene_name,
         version=1,
         blend_path=blend_path.name,
         ground_truth_mesh=gt_mesh_path.name,
@@ -274,9 +378,8 @@ def main() -> int:
             )
         ],
         notes=(
-            "Baseline scene. Subject is a subdivided UV sphere unless "
-            "--bunny-ply was supplied. Floor is a 4m checker-textured "
-            "plane lit by one area light."
+            f"Subject-on-floor scene. Subject: {subject_note}. "
+            f"Floor is a 4m checker-textured plane lit by one area light."
         ),
     )
     manifest.write(args.output / "manifest.json")

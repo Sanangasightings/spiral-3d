@@ -15,7 +15,7 @@ from pathlib import Path
 import numpy as np
 
 from .io.manifest import SceneManifest
-from .methods.base import Capture, PointCloud, Reconstruction
+from .methods.base import Capture, Mesh, PointCloud, Reconstruction
 from .scenes import SceneSpec, blender_command
 
 
@@ -182,7 +182,20 @@ def save_reconstruction(
                 else np.zeros((0, 3), dtype=np.float32)
             ),
         )
+    elif isinstance(geom, Mesh):
+        _write_mesh_obj(geom, artifact_dir / "mesh.obj")
     return recon
+
+
+def _write_mesh_obj(mesh: Mesh, out_path: Path) -> None:
+    """Write a minimal `v` / `f` OBJ for the reconstructed mesh. Matches
+    the format the metrics layer's mesh_io can read back."""
+    lines: list[str] = []
+    for v in mesh.vertices:
+        lines.append(f"v {v[0]:.6f} {v[1]:.6f} {v[2]:.6f}")
+    for f in mesh.faces:
+        lines.append(f"f {int(f[0]) + 1} {int(f[1]) + 1} {int(f[2]) + 1}")
+    out_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 # ----- Stage E: ground-truth bundle -----

@@ -1,14 +1,18 @@
-"""Scene generators. Each scene is a Blender script that runs headlessly.
+"""Scene generators.
 
-Scenes registered here advertise the script the orchestrator should
-launch in headless Blender. The methods layer reads the resulting
-`SceneManifest` and never talks to Blender directly.
+Every scene in the catalog shares the same Blender script
+(`bunny.py` — the subject-on-floor template) and differs only in which
+subject mesh it imports. The mesh comes from Open3D's bundled data
+fixtures via `_subjects.resolve_subject_mesh`; that lookup is lazy
+(Blender's bundled Python has no Open3D), so it runs in the
+orchestrator before the Blender subprocess is launched.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Optional
 
 
 @dataclass(frozen=True)
@@ -16,6 +20,9 @@ class SceneSpec:
     name: str
     script_path: Path
     description: str
+    # If set, names a subject in `_subjects.SUBJECTS`. The orchestrator
+    # resolves it to a local mesh file and passes via --subject-mesh.
+    subject: Optional[str] = None
 
 
 _REGISTRY: dict[str, SceneSpec] = {}
@@ -43,15 +50,64 @@ def list_scenes() -> list[str]:
 # --- Built-ins ---
 
 _HERE = Path(__file__).resolve().parent
+_SCRIPT = _HERE / "bunny.py"
 
 register_scene(
     SceneSpec(
-        name="bunny_baseline",
-        script_path=_HERE / "bunny.py",
+        name="sphere_baseline",
+        script_path=_SCRIPT,
         description=(
-            "Baseline scene: subdivided UV sphere (or Stanford bunny if "
-            "--bunny-ply is supplied) on a textured plane with one area light."
+            "Smoke-test baseline: a checker-textured UV sphere on a "
+            "textured plane. Builds from primitives, no external mesh."
         ),
+        subject=None,
+    )
+)
+
+# Stanford-style test meshes — same scaffolding, different subjects.
+register_scene(
+    SceneSpec(
+        name="stanford_bunny",
+        script_path=_SCRIPT,
+        description=(
+            "Stanford bunny — fine ear/foot relief. Canonical test mesh "
+            "for geometric reconstruction quality."
+        ),
+        subject="stanford_bunny",
+    )
+)
+register_scene(
+    SceneSpec(
+        name="knot",
+        script_path=_SCRIPT,
+        description=(
+            "Torus knot — non-trivial topology (genus > 0). Tests where "
+            "Poisson-on-cloud invents connectivity it can't actually see."
+        ),
+        subject="knot",
+    )
+)
+register_scene(
+    SceneSpec(
+        name="monkey",
+        script_path=_SCRIPT,
+        description=(
+            "Blender's Suzanne — sharp edges + hollow eye sockets. Tests "
+            "whether methods preserve concavities or fill them in."
+        ),
+        subject="monkey",
+    )
+)
+register_scene(
+    SceneSpec(
+        name="damaged_helmet",
+        script_path=_SCRIPT,
+        description=(
+            "PBR helmet — fine surface relief with metallic/roughness "
+            "texture. Expected case for gaussian-splat vs. mesh-method "
+            "perceptual–structural divergence."
+        ),
+        subject="damaged_helmet",
     )
 )
 
@@ -64,7 +120,11 @@ def blender_command(
     blender_bin: str = "blender",
     extra: list[str] | None = None,
 ) -> list[str]:
-    """Build the headless-Blender command for a scene generator."""
+    """Build the headless-Blender command for a scene generator.
+
+    Resolves the subject mesh path if the spec names one (lazily imports
+    Open3D, which Blender's bundled Python lacks).
+    """
     cmd = [
         blender_bin,
         "--background",
@@ -77,7 +137,13 @@ def blender_command(
         ",".join(densities),
         "--seed",
         str(seed),
+        "--scene-name",
+        spec.name,
     ]
+    if spec.subject:
+        from ._subjects import resolve_subject_mesh
+        mesh_path = resolve_subject_mesh(spec.subject)
+        cmd.extend(["--subject-mesh", str(mesh_path)])
     if extra:
         cmd.extend(extra)
     return cmd

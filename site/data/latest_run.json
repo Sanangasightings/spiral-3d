@@ -1,76 +1,352 @@
 {
-  "run_id": 15,
+  "run_id": 17,
   "rows": [
     {
-      "scene": "bunny_baseline",
+      "scene": "damaged_helmet",
       "density": "medium",
       "method": "photogrammetry",
       "metric": "chamfer",
-      "value": 1.6713924127227293,
-      "extra": "{\"pred_to_gt_mean\": 0.6792496260618164, \"gt_to_pred_mean\": 2.6635351993836425, \"n_pred\": 10000, \"n_gt\": 10000}"
+      "value": 4.236914363665908,
+      "extra": "{\"pred_to_gt_mean\": 7.845602368212267, \"gt_to_pred_mean\": 0.6282263591195487, \"n_pred\": 10000, \"n_gt\": 10000}"
     },
     {
-      "scene": "bunny_baseline",
+      "scene": "damaged_helmet",
       "density": "medium",
       "method": "photogrammetry",
       "metric": "psnr",
-      "value": 4.328208678447411,
-      "extra": "{\"per_view\": [4.328208678447411], \"n_views\": 1, \"n_finite\": 1}"
+      "value": 5.053189667674466,
+      "extra": "{\"per_view\": [5.053189667674466], \"n_views\": 1, \"n_finite\": 1}"
     },
     {
-      "scene": "bunny_baseline",
+      "scene": "damaged_helmet",
       "density": "medium",
       "method": "point_cloud",
       "metric": "chamfer",
-      "value": 0.6104045416392699,
-      "extra": "{\"pred_to_gt_mean\": 0.4837892774648641, \"gt_to_pred_mean\": 0.7370198058136758, \"n_pred\": 232565, \"n_gt\": 50000}"
+      "value": 0.611837370052601,
+      "extra": "{\"pred_to_gt_mean\": 0.5133422757955243, \"gt_to_pred_mean\": 0.7103324643096776, \"n_pred\": 264780, \"n_gt\": 50000}"
     },
     {
-      "scene": "bunny_baseline",
+      "scene": "damaged_helmet",
       "density": "medium",
       "method": "point_cloud",
       "metric": "psnr",
-      "value": 15.405990836570968,
-      "extra": "{\"per_view\": [15.405990836570968], \"n_views\": 1, \"n_finite\": 1}"
+      "value": 15.931474893123374,
+      "extra": "{\"per_view\": [15.931474893123374], \"n_views\": 1, \"n_finite\": 1}"
     },
     {
-      "scene": "bunny_baseline",
+      "scene": "damaged_helmet",
       "density": "sparse",
       "method": "point_cloud",
       "metric": "chamfer",
-      "value": 0.548323614184141,
-      "extra": "{\"pred_to_gt_mean\": 0.35734250852415617, \"gt_to_pred_mean\": 0.7393047198441259, \"n_pred\": 123639, \"n_gt\": 50000}"
+      "value": 0.5471676098606386,
+      "extra": "{\"pred_to_gt_mean\": 0.38118372586018395, \"gt_to_pred_mean\": 0.7131514938610932, \"n_pred\": 128115, \"n_gt\": 50000}"
     },
     {
-      "scene": "bunny_baseline",
+      "scene": "damaged_helmet",
       "density": "sparse",
       "method": "point_cloud",
       "metric": "psnr",
-      "value": 12.392768911727527,
-      "extra": "{\"per_view\": [12.392768911727527], \"n_views\": 1, \"n_finite\": 1}"
+      "value": 12.819234804181773,
+      "extra": "{\"per_view\": [12.819234804181773], \"n_views\": 1, \"n_finite\": 1}"
+    },
+    {
+      "scene": "knot",
+      "density": "medium",
+      "method": "photogrammetry",
+      "metric": "chamfer",
+      "value": 6.102050784153977,
+      "extra": "{\"pred_to_gt_mean\": 11.482760200517347, \"gt_to_pred_mean\": 0.7213413677906063, \"n_pred\": 10000, \"n_gt\": 10000}"
+    },
+    {
+      "scene": "knot",
+      "density": "medium",
+      "method": "photogrammetry",
+      "metric": "psnr",
+      "value": 6.4322562598466835,
+      "extra": "{\"per_view\": [6.4322562598466835], \"n_views\": 1, \"n_finite\": 1}"
+    },
+    {
+      "scene": "knot",
+      "density": "medium",
+      "method": "point_cloud",
+      "metric": "chamfer",
+      "value": 0.6019561274518505,
+      "extra": "{\"pred_to_gt_mean\": 0.48171740328355167, \"gt_to_pred_mean\": 0.7221948516201492, \"n_pred\": 272444, \"n_gt\": 50000}"
+    },
+    {
+      "scene": "knot",
+      "density": "medium",
+      "method": "point_cloud",
+      "metric": "psnr",
+      "value": 17.48940765208261,
+      "extra": "{\"per_view\": [17.48940765208261], \"n_views\": 1, \"n_finite\": 1}"
+    },
+    {
+      "scene": "knot",
+      "density": "sparse",
+      "method": "point_cloud",
+      "metric": "chamfer",
+      "value": 0.5406481695469408,
+      "extra": "{\"pred_to_gt_mean\": 0.35614620993228346, \"gt_to_pred_mean\": 0.7251501291615982, \"n_pred\": 143297, \"n_gt\": 50000}"
+    },
+    {
+      "scene": "knot",
+      "density": "sparse",
+      "method": "point_cloud",
+      "metric": "psnr",
+      "value": 13.37464669472311,
+      "extra": "{\"per_view\": [13.37464669472311], \"n_views\": 1, \"n_finite\": 1}"
+    },
+    {
+      "scene": "monkey",
+      "density": "medium",
+      "method": "photogrammetry",
+      "metric": "chamfer",
+      "value": 3.8516866546984327,
+      "extra": "{\"pred_to_gt_mean\": 6.973976836203661, \"gt_to_pred_mean\": 0.7293964731932041, \"n_pred\": 10000, \"n_gt\": 10000}"
+    },
+    {
+      "scene": "monkey",
+      "density": "medium",
+      "method": "photogrammetry",
+      "metric": "psnr",
+      "value": 5.448628676944029,
+      "extra": "{\"per_view\": [5.448628676944029], \"n_views\": 1, \"n_finite\": 1}"
+    },
+    {
+      "scene": "monkey",
+      "density": "medium",
+      "method": "point_cloud",
+      "metric": "chamfer",
+      "value": 0.6978411423922226,
+      "extra": "{\"pred_to_gt_mean\": 0.5789713042431008, \"gt_to_pred_mean\": 0.8167109805413443, \"n_pred\": 271062, \"n_gt\": 50000}"
+    },
+    {
+      "scene": "monkey",
+      "density": "medium",
+      "method": "point_cloud",
+      "metric": "psnr",
+      "value": 18.547108401224577,
+      "extra": "{\"per_view\": [18.547108401224577], \"n_views\": 1, \"n_finite\": 1}"
+    },
+    {
+      "scene": "monkey",
+      "density": "sparse",
+      "method": "point_cloud",
+      "metric": "chamfer",
+      "value": 0.6226921015002818,
+      "extra": "{\"pred_to_gt_mean\": 0.42562144657204853, \"gt_to_pred_mean\": 0.819762756428515, \"n_pred\": 142123, \"n_gt\": 50000}"
+    },
+    {
+      "scene": "monkey",
+      "density": "sparse",
+      "method": "point_cloud",
+      "metric": "psnr",
+      "value": 13.857195619166255,
+      "extra": "{\"per_view\": [13.857195619166255], \"n_views\": 1, \"n_finite\": 1}"
+    },
+    {
+      "scene": "sphere_baseline",
+      "density": "medium",
+      "method": "photogrammetry",
+      "metric": "chamfer",
+      "value": 1.3182505144424979,
+      "extra": "{\"pred_to_gt_mean\": 0.7107253636019608, \"gt_to_pred_mean\": 1.9257756652830351, \"n_pred\": 10000, \"n_gt\": 10000}"
+    },
+    {
+      "scene": "sphere_baseline",
+      "density": "medium",
+      "method": "photogrammetry",
+      "metric": "psnr",
+      "value": 4.327579670637442,
+      "extra": "{\"per_view\": [4.327579670637442], \"n_views\": 1, \"n_finite\": 1}"
+    },
+    {
+      "scene": "sphere_baseline",
+      "density": "medium",
+      "method": "point_cloud",
+      "metric": "chamfer",
+      "value": 0.6104158236256206,
+      "extra": "{\"pred_to_gt_mean\": 0.48380670981645046, \"gt_to_pred_mean\": 0.7370249374347908, \"n_pred\": 232565, \"n_gt\": 50000}"
+    },
+    {
+      "scene": "sphere_baseline",
+      "density": "medium",
+      "method": "point_cloud",
+      "metric": "psnr",
+      "value": 15.40598806865124,
+      "extra": "{\"per_view\": [15.40598806865124], \"n_views\": 1, \"n_finite\": 1}"
+    },
+    {
+      "scene": "sphere_baseline",
+      "density": "sparse",
+      "method": "point_cloud",
+      "metric": "chamfer",
+      "value": 0.5483326423777437,
+      "extra": "{\"pred_to_gt_mean\": 0.3573561420269409, \"gt_to_pred_mean\": 0.7393091427285464, \"n_pred\": 123639, \"n_gt\": 50000}"
+    },
+    {
+      "scene": "sphere_baseline",
+      "density": "sparse",
+      "method": "point_cloud",
+      "metric": "psnr",
+      "value": 12.3927686240855,
+      "extra": "{\"per_view\": [12.3927686240855], \"n_views\": 1, \"n_finite\": 1}"
+    },
+    {
+      "scene": "stanford_bunny",
+      "density": "medium",
+      "method": "photogrammetry",
+      "metric": "chamfer",
+      "value": 6.025372281892333,
+      "extra": "{\"pred_to_gt_mean\": 11.272845131239551, \"gt_to_pred_mean\": 0.7778994325451154, \"n_pred\": 10000, \"n_gt\": 10000}"
+    },
+    {
+      "scene": "stanford_bunny",
+      "density": "medium",
+      "method": "photogrammetry",
+      "metric": "psnr",
+      "value": 5.223007420017377,
+      "extra": "{\"per_view\": [5.223007420017377], \"n_views\": 1, \"n_finite\": 1}"
+    },
+    {
+      "scene": "stanford_bunny",
+      "density": "medium",
+      "method": "point_cloud",
+      "metric": "chamfer",
+      "value": 0.6459423876288717,
+      "extra": "{\"pred_to_gt_mean\": 0.5153014961537954, \"gt_to_pred_mean\": 0.7765832791039479, \"n_pred\": 257239, \"n_gt\": 50000}"
+    },
+    {
+      "scene": "stanford_bunny",
+      "density": "medium",
+      "method": "point_cloud",
+      "metric": "psnr",
+      "value": 16.49376035469412,
+      "extra": "{\"per_view\": [16.49376035469412], \"n_views\": 1, \"n_finite\": 1}"
+    },
+    {
+      "scene": "stanford_bunny",
+      "density": "sparse",
+      "method": "point_cloud",
+      "metric": "chamfer",
+      "value": 0.5872454851559167,
+      "extra": "{\"pred_to_gt_mean\": 0.39402814973694383, \"gt_to_pred_mean\": 0.7804628205748895, \"n_pred\": 132256, \"n_gt\": 50000}"
+    },
+    {
+      "scene": "stanford_bunny",
+      "density": "sparse",
+      "method": "point_cloud",
+      "metric": "psnr",
+      "value": 13.566259571888937,
+      "extra": "{\"per_view\": [13.566259571888937], \"n_views\": 1, \"n_finite\": 1}"
     }
   ],
   "recons": [
     {
-      "scene": "bunny_baseline",
+      "scene": "damaged_helmet",
       "density": "medium",
       "method": "photogrammetry",
-      "artifact_dir": "C:\\Users\\Owner\\Documents\\Claude\\Projects\\spiral 3d\\results\\artifacts\\bunny_baseline\\medium\\photogrammetry",
-      "metadata": "{\"n_sparse_points\": 1574, \"n_vertices\": 5290, \"n_faces\": 10520, \"poisson_depth\": 8, \"alignment_scale\": 0.3645919283080591, \"alignment_paired_views\": 17}"
+      "artifact_dir": "C:\\Users\\Owner\\Documents\\Claude\\Projects\\spiral 3d\\results\\artifacts\\damaged_helmet\\medium\\photogrammetry",
+      "metadata": "{\"n_sparse_points\": 2772, \"n_vertices\": 3070, \"n_faces\": 5974, \"poisson_depth\": 8, \"alignment_scale\": 0.669884388413829, \"alignment_paired_views\": 23}"
     },
     {
-      "scene": "bunny_baseline",
+      "scene": "damaged_helmet",
       "density": "medium",
       "method": "point_cloud",
-      "artifact_dir": "C:\\Users\\Owner\\Documents\\Claude\\Projects\\spiral 3d\\results\\artifacts\\bunny_baseline\\medium\\point_cloud",
+      "artifact_dir": "C:\\Users\\Owner\\Documents\\Claude\\Projects\\spiral 3d\\results\\artifacts\\damaged_helmet\\medium\\point_cloud",
+      "metadata": "{\"n_points\": 264780, \"n_views\": 23, \"voxel_size\": 0.01}"
+    },
+    {
+      "scene": "damaged_helmet",
+      "density": "sparse",
+      "method": "point_cloud",
+      "artifact_dir": "C:\\Users\\Owner\\Documents\\Claude\\Projects\\spiral 3d\\results\\artifacts\\damaged_helmet\\sparse\\point_cloud",
+      "metadata": "{\"n_points\": 128115, \"n_views\": 7, \"voxel_size\": 0.01}"
+    },
+    {
+      "scene": "knot",
+      "density": "medium",
+      "method": "photogrammetry",
+      "artifact_dir": "C:\\Users\\Owner\\Documents\\Claude\\Projects\\spiral 3d\\results\\artifacts\\knot\\medium\\photogrammetry",
+      "metadata": "{\"n_sparse_points\": 2958, \"n_vertices\": 2478, \"n_faces\": 4820, \"poisson_depth\": 8, \"alignment_scale\": 0.6605727677542784, \"alignment_paired_views\": 23}"
+    },
+    {
+      "scene": "knot",
+      "density": "medium",
+      "method": "point_cloud",
+      "artifact_dir": "C:\\Users\\Owner\\Documents\\Claude\\Projects\\spiral 3d\\results\\artifacts\\knot\\medium\\point_cloud",
+      "metadata": "{\"n_points\": 272444, \"n_views\": 23, \"voxel_size\": 0.01}"
+    },
+    {
+      "scene": "knot",
+      "density": "sparse",
+      "method": "point_cloud",
+      "artifact_dir": "C:\\Users\\Owner\\Documents\\Claude\\Projects\\spiral 3d\\results\\artifacts\\knot\\sparse\\point_cloud",
+      "metadata": "{\"n_points\": 143297, \"n_views\": 7, \"voxel_size\": 0.01}"
+    },
+    {
+      "scene": "monkey",
+      "density": "medium",
+      "method": "photogrammetry",
+      "artifact_dir": "C:\\Users\\Owner\\Documents\\Claude\\Projects\\spiral 3d\\results\\artifacts\\monkey\\medium\\photogrammetry",
+      "metadata": "{\"n_sparse_points\": 2214, \"n_vertices\": 2974, \"n_faces\": 5780, \"poisson_depth\": 8, \"alignment_scale\": 0.6746935054228047, \"alignment_paired_views\": 23}"
+    },
+    {
+      "scene": "monkey",
+      "density": "medium",
+      "method": "point_cloud",
+      "artifact_dir": "C:\\Users\\Owner\\Documents\\Claude\\Projects\\spiral 3d\\results\\artifacts\\monkey\\medium\\point_cloud",
+      "metadata": "{\"n_points\": 271062, \"n_views\": 23, \"voxel_size\": 0.01}"
+    },
+    {
+      "scene": "monkey",
+      "density": "sparse",
+      "method": "point_cloud",
+      "artifact_dir": "C:\\Users\\Owner\\Documents\\Claude\\Projects\\spiral 3d\\results\\artifacts\\monkey\\sparse\\point_cloud",
+      "metadata": "{\"n_points\": 142123, \"n_views\": 7, \"voxel_size\": 0.01}"
+    },
+    {
+      "scene": "sphere_baseline",
+      "density": "medium",
+      "method": "photogrammetry",
+      "artifact_dir": "C:\\Users\\Owner\\Documents\\Claude\\Projects\\spiral 3d\\results\\artifacts\\sphere_baseline\\medium\\photogrammetry",
+      "metadata": "{\"n_sparse_points\": 1651, \"n_vertices\": 5349, \"n_faces\": 10670, \"poisson_depth\": 8, \"alignment_scale\": 0.24280368522743054, \"alignment_paired_views\": 17}"
+    },
+    {
+      "scene": "sphere_baseline",
+      "density": "medium",
+      "method": "point_cloud",
+      "artifact_dir": "C:\\Users\\Owner\\Documents\\Claude\\Projects\\spiral 3d\\results\\artifacts\\sphere_baseline\\medium\\point_cloud",
       "metadata": "{\"n_points\": 232565, \"n_views\": 23, \"voxel_size\": 0.01}"
     },
     {
-      "scene": "bunny_baseline",
+      "scene": "sphere_baseline",
       "density": "sparse",
       "method": "point_cloud",
-      "artifact_dir": "C:\\Users\\Owner\\Documents\\Claude\\Projects\\spiral 3d\\results\\artifacts\\bunny_baseline\\sparse\\point_cloud",
+      "artifact_dir": "C:\\Users\\Owner\\Documents\\Claude\\Projects\\spiral 3d\\results\\artifacts\\sphere_baseline\\sparse\\point_cloud",
       "metadata": "{\"n_points\": 123639, \"n_views\": 7, \"voxel_size\": 0.01}"
+    },
+    {
+      "scene": "stanford_bunny",
+      "density": "medium",
+      "method": "photogrammetry",
+      "artifact_dir": "C:\\Users\\Owner\\Documents\\Claude\\Projects\\spiral 3d\\results\\artifacts\\stanford_bunny\\medium\\photogrammetry",
+      "metadata": "{\"n_sparse_points\": 2337, \"n_vertices\": 2534, \"n_faces\": 4900, \"poisson_depth\": 8, \"alignment_scale\": 0.6635356372858191, \"alignment_paired_views\": 23}"
+    },
+    {
+      "scene": "stanford_bunny",
+      "density": "medium",
+      "method": "point_cloud",
+      "artifact_dir": "C:\\Users\\Owner\\Documents\\Claude\\Projects\\spiral 3d\\results\\artifacts\\stanford_bunny\\medium\\point_cloud",
+      "metadata": "{\"n_points\": 257239, \"n_views\": 23, \"voxel_size\": 0.01}"
+    },
+    {
+      "scene": "stanford_bunny",
+      "density": "sparse",
+      "method": "point_cloud",
+      "artifact_dir": "C:\\Users\\Owner\\Documents\\Claude\\Projects\\spiral 3d\\results\\artifacts\\stanford_bunny\\sparse\\point_cloud",
+      "metadata": "{\"n_points\": 132256, \"n_views\": 7, \"voxel_size\": 0.01}"
     }
   ]
 }

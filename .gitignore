@@ -2,10 +2,14 @@ results/
 !results/.gitkeep
 !results/figures/
 
-# Generated scene artifacts (regenerable from configs/)
-scenes/bunny_baseline/*.blend
-scenes/bunny_baseline/*.obj
-scenes/bunny_baseline/manifest.json
+# Generated scene artifacts (regenerable from configs/). Every scene
+# directory under scenes/ is the output of a Blender script — keep
+# them out of git regardless of scene name.
+scenes/*/*.blend
+scenes/*/*.blend1
+scenes/*/*.obj
+scenes/*/manifest.json
+.spiral_colmap_ws/
 
 .pytest_cache/
 

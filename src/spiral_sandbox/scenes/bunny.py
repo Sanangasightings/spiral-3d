@@ -75,7 +75,17 @@ def _parse() -> argparse.Namespace:
     return args
 
 
-DENSITY_VIEWS = {"sparse": 8, "medium": 24, "dense": 64}
+DENSITY_VIEWS = {"sparse": 24, "medium": 60, "dense": 120}
+
+
+# Spiral trajectory: azimuth advances by the golden angle while elevation
+# sweeps linearly from `_ELEV_MIN_DEG` (slightly below the equator) up
+# toward top-down. This replaces an earlier single-elevation orbit that
+# starved SfM of triangulation diversity — every ray was nearly coplanar
+# and reconstructions came out as wrinkled sheets.
+_GOLDEN_ANGLE = math.pi * (3 - math.sqrt(5))
+_ELEV_MIN_DEG = -10.0
+_ELEV_MAX_DEG = 85.0
 
 
 def _density_count(name: str) -> int:
@@ -278,18 +288,39 @@ def _build_scene(args: argparse.Namespace):
     return scene, subject, floor, light, cam
 
 
-def _orbit_pose(cam, angle_rad: float, radius: float, height: float, jitter: float, rng: random.Random):
+def _spiral_pose(
+    cam,
+    i: int,
+    n: int,
+    *,
+    radius: float,
+    target_z: float,
+    jitter: float,
+    rng: random.Random,
+):
+    """Place `cam` at the i-th point along a spherical spiral around
+    the subject. Azimuth: golden-angle step. Elevation: linear sweep
+    from `_ELEV_MIN_DEG` to `_ELEV_MAX_DEG` as i goes 0..n-1. Every i
+    is a distinct viewpoint, so 24 / 60 / 120 cameras give 24 / 60 / 120
+    different angles — no near-duplicates."""
     import mathutils
 
+    azimuth = i * _GOLDEN_ANGLE
+    elev = math.radians(
+        _ELEV_MIN_DEG
+        + (_ELEV_MAX_DEG - _ELEV_MIN_DEG) * (i / max(n - 1, 1))
+    )
     jx = (rng.random() - 0.5) * jitter
     jy = (rng.random() - 0.5) * jitter
     jz = (rng.random() - 0.5) * jitter * 0.5
+    cz = math.sin(elev) * radius
+    cr = math.cos(elev) * radius
     cam.location = (
-        math.cos(angle_rad) * radius + jx,
-        math.sin(angle_rad) * radius + jy,
-        height + jz,
+        math.cos(azimuth) * cr + jx,
+        math.sin(azimuth) * cr + jy,
+        target_z + cz + jz,
     )
-    direction = mathutils.Vector((0.0, 0.0, 0.5)) - cam.location
+    direction = mathutils.Vector((0.0, 0.0, target_z)) - cam.location
     cam.rotation_euler = direction.to_track_quat("-Z", "Y").to_euler()
 
 
@@ -305,8 +336,10 @@ def _collect_cameras(args, scene, cam) -> dict[str, list]:
         n = _density_count(density)
         poses = []
         for i in range(n):
-            angle = (i / n) * math.tau
-            _orbit_pose(cam, angle, radius=2.5, height=1.2, jitter=0.05, rng=rng)
+            _spiral_pose(
+                cam, i, n,
+                radius=2.5, target_z=0.5, jitter=0.04, rng=rng,
+            )
             scene.frame_set(i)  # forces matrix_world refresh
             poses.append(
                 CameraPose(

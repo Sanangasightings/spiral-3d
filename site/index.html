@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Spiral Sandbox — run 17</title>
+<title>Spiral Sandbox — run 18</title>
 <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
 <style>
   :root { --fg:#1a1a1a; --muted:#666; --bg:#fafaf7; --card:#fff; --line:#e5e5e0; }
@@ -44,157 +44,172 @@
 <p>
   Comparative 3D reconstruction sandbox for the <em>Perspective as Trade</em> paper.
   One card per scene: ground truth, reconstructions, sample captures, scene-local metric table.
-  <span class="pill">run #17</span>
+  <span class="pill">run #18</span>
 </p>
 
 <section class="scene-card"><h2>damaged_helmet</h2>
 <div class="viewers">
 <figure><figcaption>Ground truth</figcaption><model-viewer src="models/damaged_helmet_gt.glb" alt="damaged_helmet GT" camera-controls auto-rotate shadow-intensity="0.4" exposure="1.0"></model-viewer></figure>
 <figure><figcaption>photogrammetry / medium</figcaption><model-viewer src="models/damaged_helmet_medium_photogrammetry.glb" alt="damaged_helmet photogrammetry medium" camera-controls auto-rotate shadow-intensity="0.4" exposure="1.0"></model-viewer></figure>
+<figure><figcaption>photogrammetry / sparse</figcaption><model-viewer src="models/damaged_helmet_sparse_photogrammetry.glb" alt="damaged_helmet photogrammetry sparse" camera-controls auto-rotate shadow-intensity="0.4" exposure="1.0"></model-viewer></figure>
 </div>
-<p style="font-size: 13px; margin: 8px 0 4px;">medium captures <span class="pill">24 total</span></p>
+<p style="font-size: 13px; margin: 8px 0 4px;">medium captures <span class="pill">60 total</span></p>
 <div class="gallery sample">
   <img src="figures/damaged_helmet/medium/medium_000.png" alt="damaged_helmet/medium/medium_000.png" loading="lazy">
-  <img src="figures/damaged_helmet/medium/medium_001.png" alt="damaged_helmet/medium/medium_001.png" loading="lazy">
-  <img src="figures/damaged_helmet/medium/medium_002.png" alt="damaged_helmet/medium/medium_002.png" loading="lazy">
-  <img src="figures/damaged_helmet/medium/medium_003.png" alt="damaged_helmet/medium/medium_003.png" loading="lazy">
+  <img src="figures/damaged_helmet/medium/medium_020.png" alt="damaged_helmet/medium/medium_020.png" loading="lazy">
+  <img src="figures/damaged_helmet/medium/medium_039.png" alt="damaged_helmet/medium/medium_039.png" loading="lazy">
+  <img src="figures/damaged_helmet/medium/medium_059.png" alt="damaged_helmet/medium/medium_059.png" loading="lazy">
 </div>
-<p style="font-size: 13px; margin: 8px 0 4px;">sparse captures <span class="pill">8 total</span></p>
+<p style="font-size: 13px; margin: 8px 0 4px;">sparse captures <span class="pill">24 total</span></p>
 <div class="gallery sample">
   <img src="figures/damaged_helmet/sparse/sparse_000.png" alt="damaged_helmet/sparse/sparse_000.png" loading="lazy">
-  <img src="figures/damaged_helmet/sparse/sparse_001.png" alt="damaged_helmet/sparse/sparse_001.png" loading="lazy">
-  <img src="figures/damaged_helmet/sparse/sparse_002.png" alt="damaged_helmet/sparse/sparse_002.png" loading="lazy">
-  <img src="figures/damaged_helmet/sparse/sparse_003.png" alt="damaged_helmet/sparse/sparse_003.png" loading="lazy">
+  <img src="figures/damaged_helmet/sparse/sparse_008.png" alt="damaged_helmet/sparse/sparse_008.png" loading="lazy">
+  <img src="figures/damaged_helmet/sparse/sparse_015.png" alt="damaged_helmet/sparse/sparse_015.png" loading="lazy">
+  <img src="figures/damaged_helmet/sparse/sparse_023.png" alt="damaged_helmet/sparse/sparse_023.png" loading="lazy">
 </div>
 <table>
 <thead><tr><th>Density</th><th>Method</th><th>Metric</th><th class="num">Value</th></tr></thead>
 <tbody>
-<tr><td>medium</td><td>photogrammetry</td><td>chamfer</td><td class="num">4.2369</td></tr>
-<tr><td>medium</td><td>photogrammetry</td><td>psnr</td><td class="num">5.0532</td></tr>
-<tr><td>medium</td><td>point_cloud</td><td>chamfer</td><td class="num">0.6118</td></tr>
-<tr><td>medium</td><td>point_cloud</td><td>psnr</td><td class="num">15.9315</td></tr>
-<tr><td>sparse</td><td>point_cloud</td><td>chamfer</td><td class="num">0.5472</td></tr>
-<tr><td>sparse</td><td>point_cloud</td><td>psnr</td><td class="num">12.8192</td></tr>
+<tr><td>medium</td><td>photogrammetry</td><td>chamfer</td><td class="num">3.8630</td></tr>
+<tr><td>medium</td><td>photogrammetry</td><td>psnr</td><td class="num">8.2994</td></tr>
+<tr><td>medium</td><td>point_cloud</td><td>chamfer</td><td class="num">0.6017</td></tr>
+<tr><td>medium</td><td>point_cloud</td><td>psnr</td><td class="num">14.7919</td></tr>
+<tr><td>sparse</td><td>photogrammetry</td><td>chamfer</td><td class="num">0.6518</td></tr>
+<tr><td>sparse</td><td>photogrammetry</td><td>psnr</td><td class="num">7.7016</td></tr>
+<tr><td>sparse</td><td>point_cloud</td><td>chamfer</td><td class="num">0.5657</td></tr>
+<tr><td>sparse</td><td>point_cloud</td><td>psnr</td><td class="num">14.3724</td></tr>
 </tbody></table>
 </section>
 <section class="scene-card"><h2>knot</h2>
 <div class="viewers">
 <figure><figcaption>Ground truth</figcaption><model-viewer src="models/knot_gt.glb" alt="knot GT" camera-controls auto-rotate shadow-intensity="0.4" exposure="1.0"></model-viewer></figure>
 <figure><figcaption>photogrammetry / medium</figcaption><model-viewer src="models/knot_medium_photogrammetry.glb" alt="knot photogrammetry medium" camera-controls auto-rotate shadow-intensity="0.4" exposure="1.0"></model-viewer></figure>
+<figure><figcaption>photogrammetry / sparse</figcaption><model-viewer src="models/knot_sparse_photogrammetry.glb" alt="knot photogrammetry sparse" camera-controls auto-rotate shadow-intensity="0.4" exposure="1.0"></model-viewer></figure>
 </div>
-<p style="font-size: 13px; margin: 8px 0 4px;">medium captures <span class="pill">24 total</span></p>
+<p style="font-size: 13px; margin: 8px 0 4px;">medium captures <span class="pill">60 total</span></p>
 <div class="gallery sample">
   <img src="figures/knot/medium/medium_000.png" alt="knot/medium/medium_000.png" loading="lazy">
-  <img src="figures/knot/medium/medium_001.png" alt="knot/medium/medium_001.png" loading="lazy">
-  <img src="figures/knot/medium/medium_002.png" alt="knot/medium/medium_002.png" loading="lazy">
-  <img src="figures/knot/medium/medium_003.png" alt="knot/medium/medium_003.png" loading="lazy">
+  <img src="figures/knot/medium/medium_020.png" alt="knot/medium/medium_020.png" loading="lazy">
+  <img src="figures/knot/medium/medium_039.png" alt="knot/medium/medium_039.png" loading="lazy">
+  <img src="figures/knot/medium/medium_059.png" alt="knot/medium/medium_059.png" loading="lazy">
 </div>
-<p style="font-size: 13px; margin: 8px 0 4px;">sparse captures <span class="pill">8 total</span></p>
+<p style="font-size: 13px; margin: 8px 0 4px;">sparse captures <span class="pill">24 total</span></p>
 <div class="gallery sample">
   <img src="figures/knot/sparse/sparse_000.png" alt="knot/sparse/sparse_000.png" loading="lazy">
-  <img src="figures/knot/sparse/sparse_001.png" alt="knot/sparse/sparse_001.png" loading="lazy">
-  <img src="figures/knot/sparse/sparse_002.png" alt="knot/sparse/sparse_002.png" loading="lazy">
-  <img src="figures/knot/sparse/sparse_003.png" alt="knot/sparse/sparse_003.png" loading="lazy">
+  <img src="figures/knot/sparse/sparse_008.png" alt="knot/sparse/sparse_008.png" loading="lazy">
+  <img src="figures/knot/sparse/sparse_015.png" alt="knot/sparse/sparse_015.png" loading="lazy">
+  <img src="figures/knot/sparse/sparse_023.png" alt="knot/sparse/sparse_023.png" loading="lazy">
 </div>
 <table>
 <thead><tr><th>Density</th><th>Method</th><th>Metric</th><th class="num">Value</th></tr></thead>
 <tbody>
-<tr><td>medium</td><td>photogrammetry</td><td>chamfer</td><td class="num">6.1021</td></tr>
-<tr><td>medium</td><td>photogrammetry</td><td>psnr</td><td class="num">6.4323</td></tr>
-<tr><td>medium</td><td>point_cloud</td><td>chamfer</td><td class="num">0.6020</td></tr>
-<tr><td>medium</td><td>point_cloud</td><td>psnr</td><td class="num">17.4894</td></tr>
-<tr><td>sparse</td><td>point_cloud</td><td>chamfer</td><td class="num">0.5406</td></tr>
-<tr><td>sparse</td><td>point_cloud</td><td>psnr</td><td class="num">13.3746</td></tr>
+<tr><td>medium</td><td>photogrammetry</td><td>chamfer</td><td class="num">0.8521</td></tr>
+<tr><td>medium</td><td>photogrammetry</td><td>psnr</td><td class="num">8.0185</td></tr>
+<tr><td>medium</td><td>point_cloud</td><td>chamfer</td><td class="num">0.5916</td></tr>
+<tr><td>medium</td><td>point_cloud</td><td>psnr</td><td class="num">15.5997</td></tr>
+<tr><td>sparse</td><td>photogrammetry</td><td>chamfer</td><td class="num">0.5373</td></tr>
+<tr><td>sparse</td><td>photogrammetry</td><td>psnr</td><td class="num">6.3881</td></tr>
+<tr><td>sparse</td><td>point_cloud</td><td>chamfer</td><td class="num">0.5540</td></tr>
+<tr><td>sparse</td><td>point_cloud</td><td>psnr</td><td class="num">15.2343</td></tr>
 </tbody></table>
 </section>
 <section class="scene-card"><h2>monkey</h2>
 <div class="viewers">
 <figure><figcaption>Ground truth</figcaption><model-viewer src="models/monkey_gt.glb" alt="monkey GT" camera-controls auto-rotate shadow-intensity="0.4" exposure="1.0"></model-viewer></figure>
 <figure><figcaption>photogrammetry / medium</figcaption><model-viewer src="models/monkey_medium_photogrammetry.glb" alt="monkey photogrammetry medium" camera-controls auto-rotate shadow-intensity="0.4" exposure="1.0"></model-viewer></figure>
+<figure><figcaption>photogrammetry / sparse</figcaption><model-viewer src="models/monkey_sparse_photogrammetry.glb" alt="monkey photogrammetry sparse" camera-controls auto-rotate shadow-intensity="0.4" exposure="1.0"></model-viewer></figure>
 </div>
-<p style="font-size: 13px; margin: 8px 0 4px;">medium captures <span class="pill">24 total</span></p>
+<p style="font-size: 13px; margin: 8px 0 4px;">medium captures <span class="pill">60 total</span></p>
 <div class="gallery sample">
   <img src="figures/monkey/medium/medium_000.png" alt="monkey/medium/medium_000.png" loading="lazy">
-  <img src="figures/monkey/medium/medium_001.png" alt="monkey/medium/medium_001.png" loading="lazy">
-  <img src="figures/monkey/medium/medium_002.png" alt="monkey/medium/medium_002.png" loading="lazy">
-  <img src="figures/monkey/medium/medium_003.png" alt="monkey/medium/medium_003.png" loading="lazy">
+  <img src="figures/monkey/medium/medium_020.png" alt="monkey/medium/medium_020.png" loading="lazy">
+  <img src="figures/monkey/medium/medium_039.png" alt="monkey/medium/medium_039.png" loading="lazy">
+  <img src="figures/monkey/medium/medium_059.png" alt="monkey/medium/medium_059.png" loading="lazy">
 </div>
-<p style="font-size: 13px; margin: 8px 0 4px;">sparse captures <span class="pill">8 total</span></p>
+<p style="font-size: 13px; margin: 8px 0 4px;">sparse captures <span class="pill">24 total</span></p>
 <div class="gallery sample">
   <img src="figures/monkey/sparse/sparse_000.png" alt="monkey/sparse/sparse_000.png" loading="lazy">
-  <img src="figures/monkey/sparse/sparse_001.png" alt="monkey/sparse/sparse_001.png" loading="lazy">
-  <img src="figures/monkey/sparse/sparse_002.png" alt="monkey/sparse/sparse_002.png" loading="lazy">
-  <img src="figures/monkey/sparse/sparse_003.png" alt="monkey/sparse/sparse_003.png" loading="lazy">
+  <img src="figures/monkey/sparse/sparse_008.png" alt="monkey/sparse/sparse_008.png" loading="lazy">
+  <img src="figures/monkey/sparse/sparse_015.png" alt="monkey/sparse/sparse_015.png" loading="lazy">
+  <img src="figures/monkey/sparse/sparse_023.png" alt="monkey/sparse/sparse_023.png" loading="lazy">
 </div>
 <table>
 <thead><tr><th>Density</th><th>Method</th><th>Metric</th><th class="num">Value</th></tr></thead>
 <tbody>
-<tr><td>medium</td><td>photogrammetry</td><td>chamfer</td><td class="num">3.8517</td></tr>
-<tr><td>medium</td><td>photogrammetry</td><td>psnr</td><td class="num">5.4486</td></tr>
-<tr><td>medium</td><td>point_cloud</td><td>chamfer</td><td class="num">0.6978</td></tr>
-<tr><td>medium</td><td>point_cloud</td><td>psnr</td><td class="num">18.5471</td></tr>
-<tr><td>sparse</td><td>point_cloud</td><td>chamfer</td><td class="num">0.6227</td></tr>
-<tr><td>sparse</td><td>point_cloud</td><td>psnr</td><td class="num">13.8572</td></tr>
+<tr><td>medium</td><td>photogrammetry</td><td>chamfer</td><td class="num">9.4383</td></tr>
+<tr><td>medium</td><td>photogrammetry</td><td>psnr</td><td class="num">7.8897</td></tr>
+<tr><td>medium</td><td>point_cloud</td><td>chamfer</td><td class="num">0.6808</td></tr>
+<tr><td>medium</td><td>point_cloud</td><td>psnr</td><td class="num">18.7835</td></tr>
+<tr><td>sparse</td><td>photogrammetry</td><td>chamfer</td><td class="num">0.6088</td></tr>
+<tr><td>sparse</td><td>photogrammetry</td><td>psnr</td><td class="num">9.0848</td></tr>
+<tr><td>sparse</td><td>point_cloud</td><td>chamfer</td><td class="num">0.6385</td></tr>
+<tr><td>sparse</td><td>point_cloud</td><td>psnr</td><td class="num">18.8772</td></tr>
 </tbody></table>
 </section>
 <section class="scene-card"><h2>sphere_baseline</h2>
 <div class="viewers">
 <figure><figcaption>Ground truth</figcaption><model-viewer src="models/sphere_baseline_gt.glb" alt="sphere_baseline GT" camera-controls auto-rotate shadow-intensity="0.4" exposure="1.0"></model-viewer></figure>
 <figure><figcaption>photogrammetry / medium</figcaption><model-viewer src="models/sphere_baseline_medium_photogrammetry.glb" alt="sphere_baseline photogrammetry medium" camera-controls auto-rotate shadow-intensity="0.4" exposure="1.0"></model-viewer></figure>
+<figure><figcaption>photogrammetry / sparse</figcaption><model-viewer src="models/sphere_baseline_sparse_photogrammetry.glb" alt="sphere_baseline photogrammetry sparse" camera-controls auto-rotate shadow-intensity="0.4" exposure="1.0"></model-viewer></figure>
 </div>
-<p style="font-size: 13px; margin: 8px 0 4px;">medium captures <span class="pill">24 total</span></p>
+<p style="font-size: 13px; margin: 8px 0 4px;">medium captures <span class="pill">60 total</span></p>
 <div class="gallery sample">
   <img src="figures/sphere_baseline/medium/medium_000.png" alt="sphere_baseline/medium/medium_000.png" loading="lazy">
-  <img src="figures/sphere_baseline/medium/medium_001.png" alt="sphere_baseline/medium/medium_001.png" loading="lazy">
-  <img src="figures/sphere_baseline/medium/medium_002.png" alt="sphere_baseline/medium/medium_002.png" loading="lazy">
-  <img src="figures/sphere_baseline/medium/medium_003.png" alt="sphere_baseline/medium/medium_003.png" loading="lazy">
+  <img src="figures/sphere_baseline/medium/medium_020.png" alt="sphere_baseline/medium/medium_020.png" loading="lazy">
+  <img src="figures/sphere_baseline/medium/medium_039.png" alt="sphere_baseline/medium/medium_039.png" loading="lazy">
+  <img src="figures/sphere_baseline/medium/medium_059.png" alt="sphere_baseline/medium/medium_059.png" loading="lazy">
 </div>
-<p style="font-size: 13px; margin: 8px 0 4px;">sparse captures <span class="pill">8 total</span></p>
+<p style="font-size: 13px; margin: 8px 0 4px;">sparse captures <span class="pill">24 total</span></p>
 <div class="gallery sample">
   <img src="figures/sphere_baseline/sparse/sparse_000.png" alt="sphere_baseline/sparse/sparse_000.png" loading="lazy">
-  <img src="figures/sphere_baseline/sparse/sparse_001.png" alt="sphere_baseline/sparse/sparse_001.png" loading="lazy">
-  <img src="figures/sphere_baseline/sparse/sparse_002.png" alt="sphere_baseline/sparse/sparse_002.png" loading="lazy">
-  <img src="figures/sphere_baseline/sparse/sparse_003.png" alt="sphere_baseline/sparse/sparse_003.png" loading="lazy">
+  <img src="figures/sphere_baseline/sparse/sparse_008.png" alt="sphere_baseline/sparse/sparse_008.png" loading="lazy">
+  <img src="figures/sphere_baseline/sparse/sparse_015.png" alt="sphere_baseline/sparse/sparse_015.png" loading="lazy">
+  <img src="figures/sphere_baseline/sparse/sparse_023.png" alt="sphere_baseline/sparse/sparse_023.png" loading="lazy">
 </div>
 <table>
 <thead><tr><th>Density</th><th>Method</th><th>Metric</th><th class="num">Value</th></tr></thead>
 <tbody>
-<tr><td>medium</td><td>photogrammetry</td><td>chamfer</td><td class="num">1.3183</td></tr>
-<tr><td>medium</td><td>photogrammetry</td><td>psnr</td><td class="num">4.3276</td></tr>
-<tr><td>medium</td><td>point_cloud</td><td>chamfer</td><td class="num">0.6104</td></tr>
-<tr><td>medium</td><td>point_cloud</td><td>psnr</td><td class="num">15.4060</td></tr>
-<tr><td>sparse</td><td>point_cloud</td><td>chamfer</td><td class="num">0.5483</td></tr>
-<tr><td>sparse</td><td>point_cloud</td><td>psnr</td><td class="num">12.3928</td></tr>
+<tr><td>medium</td><td>photogrammetry</td><td>chamfer</td><td class="num">1.6897</td></tr>
+<tr><td>medium</td><td>photogrammetry</td><td>psnr</td><td class="num">5.6901</td></tr>
+<tr><td>medium</td><td>point_cloud</td><td>chamfer</td><td class="num">0.5956</td></tr>
+<tr><td>medium</td><td>point_cloud</td><td>psnr</td><td class="num">14.9464</td></tr>
+<tr><td>sparse</td><td>photogrammetry</td><td>chamfer</td><td class="num">1.2441</td></tr>
+<tr><td>sparse</td><td>photogrammetry</td><td>psnr</td><td class="num">5.6926</td></tr>
+<tr><td>sparse</td><td>point_cloud</td><td>chamfer</td><td class="num">0.5642</td></tr>
+<tr><td>sparse</td><td>point_cloud</td><td>psnr</td><td class="num">14.3868</td></tr>
 </tbody></table>
 </section>
 <section class="scene-card"><h2>stanford_bunny</h2>
 <div class="viewers">
 <figure><figcaption>Ground truth</figcaption><model-viewer src="models/stanford_bunny_gt.glb" alt="stanford_bunny GT" camera-controls auto-rotate shadow-intensity="0.4" exposure="1.0"></model-viewer></figure>
 <figure><figcaption>photogrammetry / medium</figcaption><model-viewer src="models/stanford_bunny_medium_photogrammetry.glb" alt="stanford_bunny photogrammetry medium" camera-controls auto-rotate shadow-intensity="0.4" exposure="1.0"></model-viewer></figure>
+<figure><figcaption>photogrammetry / sparse</figcaption><model-viewer src="models/stanford_bunny_sparse_photogrammetry.glb" alt="stanford_bunny photogrammetry sparse" camera-controls auto-rotate shadow-intensity="0.4" exposure="1.0"></model-viewer></figure>
 </div>
-<p style="font-size: 13px; margin: 8px 0 4px;">medium captures <span class="pill">24 total</span></p>
+<p style="font-size: 13px; margin: 8px 0 4px;">medium captures <span class="pill">60 total</span></p>
 <div class="gallery sample">
   <img src="figures/stanford_bunny/medium/medium_000.png" alt="stanford_bunny/medium/medium_000.png" loading="lazy">
-  <img src="figures/stanford_bunny/medium/medium_001.png" alt="stanford_bunny/medium/medium_001.png" loading="lazy">
-  <img src="figures/stanford_bunny/medium/medium_002.png" alt="stanford_bunny/medium/medium_002.png" loading="lazy">
-  <img src="figures/stanford_bunny/medium/medium_003.png" alt="stanford_bunny/medium/medium_003.png" loading="lazy">
+  <img src="figures/stanford_bunny/medium/medium_020.png" alt="stanford_bunny/medium/medium_020.png" loading="lazy">
+  <img src="figures/stanford_bunny/medium/medium_039.png" alt="stanford_bunny/medium/medium_039.png" loading="lazy">
+  <img src="figures/stanford_bunny/medium/medium_059.png" alt="stanford_bunny/medium/medium_059.png" loading="lazy">
 </div>
-<p style="font-size: 13px; margin: 8px 0 4px;">sparse captures <span class="pill">8 total</span></p>
+<p style="font-size: 13px; margin: 8px 0 4px;">sparse captures <span class="pill">24 total</span></p>
 <div class="gallery sample">
   <img src="figures/stanford_bunny/sparse/sparse_000.png" alt="stanford_bunny/sparse/sparse_000.png" loading="lazy">
-  <img src="figures/stanford_bunny/sparse/sparse_001.png" alt="stanford_bunny/sparse/sparse_001.png" loading="lazy">
-  <img src="figures/stanford_bunny/sparse/sparse_002.png" alt="stanford_bunny/sparse/sparse_002.png" loading="lazy">
-  <img src="figures/stanford_bunny/sparse/sparse_003.png" alt="stanford_bunny/sparse/sparse_003.png" loading="lazy">
+  <img src="figures/stanford_bunny/sparse/sparse_008.png" alt="stanford_bunny/sparse/sparse_008.png" loading="lazy">
+  <img src="figures/stanford_bunny/sparse/sparse_015.png" alt="stanford_bunny/sparse/sparse_015.png" loading="lazy">
+  <img src="figures/stanford_bunny/sparse/sparse_023.png" alt="stanford_bunny/sparse/sparse_023.png" loading="lazy">
 </div>
 <table>
 <thead><tr><th>Density</th><th>Method</th><th>Metric</th><th class="num">Value</th></tr></thead>
 <tbody>
-<tr><td>medium</td><td>photogrammetry</td><td>chamfer</td><td class="num">6.0254</td></tr>
-<tr><td>medium</td><td>photogrammetry</td><td>psnr</td><td class="num">5.2230</td></tr>
-<tr><td>medium</td><td>point_cloud</td><td>chamfer</td><td class="num">0.6459</td></tr>
-<tr><td>medium</td><td>point_cloud</td><td>psnr</td><td class="num">16.4938</td></tr>
-<tr><td>sparse</td><td>point_cloud</td><td>chamfer</td><td class="num">0.5872</td></tr>
-<tr><td>sparse</td><td>point_cloud</td><td>psnr</td><td class="num">13.5663</td></tr>
+<tr><td>medium</td><td>photogrammetry</td><td>chamfer</td><td class="num">1.5233</td></tr>
+<tr><td>medium</td><td>photogrammetry</td><td>psnr</td><td class="num">7.3062</td></tr>
+<tr><td>medium</td><td>point_cloud</td><td>chamfer</td><td class="num">0.6390</td></tr>
+<tr><td>medium</td><td>point_cloud</td><td>psnr</td><td class="num">16.3661</td></tr>
+<tr><td>sparse</td><td>photogrammetry</td><td>chamfer</td><td class="num">0.5543</td></tr>
+<tr><td>sparse</td><td>photogrammetry</td><td>psnr</td><td class="num">8.6031</td></tr>
+<tr><td>sparse</td><td>point_cloud</td><td>chamfer</td><td class="num">0.6012</td></tr>
+<tr><td>sparse</td><td>point_cloud</td><td>psnr</td><td class="num">16.3476</td></tr>
 </tbody></table>
 </section>
 
@@ -204,36 +219,46 @@
     <tr><th>Scene</th><th>Density</th><th>Method</th><th>Metric</th><th class="num">Value</th></tr>
   </thead>
   <tbody>
-<tr><td>damaged_helmet</td><td>medium</td><td>photogrammetry</td><td>chamfer</td><td class="num">4.2369</td></tr>
-<tr><td>damaged_helmet</td><td>medium</td><td>photogrammetry</td><td>psnr</td><td class="num">5.0532</td></tr>
-<tr><td>damaged_helmet</td><td>medium</td><td>point_cloud</td><td>chamfer</td><td class="num">0.6118</td></tr>
-<tr><td>damaged_helmet</td><td>medium</td><td>point_cloud</td><td>psnr</td><td class="num">15.9315</td></tr>
-<tr><td>damaged_helmet</td><td>sparse</td><td>point_cloud</td><td>chamfer</td><td class="num">0.5472</td></tr>
-<tr><td>damaged_helmet</td><td>sparse</td><td>point_cloud</td><td>psnr</td><td class="num">12.8192</td></tr>
-<tr><td>knot</td><td>medium</td><td>photogrammetry</td><td>chamfer</td><td class="num">6.1021</td></tr>
-<tr><td>knot</td><td>medium</td><td>photogrammetry</td><td>psnr</td><td class="num">6.4323</td></tr>
-<tr><td>knot</td><td>medium</td><td>point_cloud</td><td>chamfer</td><td class="num">0.6020</td></tr>
-<tr><td>knot</td><td>medium</td><td>point_cloud</td><td>psnr</td><td class="num">17.4894</td></tr>
-<tr><td>knot</td><td>sparse</td><td>point_cloud</td><td>chamfer</td><td class="num">0.5406</td></tr>
-<tr><td>knot</td><td>sparse</td><td>point_cloud</td><td>psnr</td><td class="num">13.3746</td></tr>
-<tr><td>monkey</td><td>medium</td><td>photogrammetry</td><td>chamfer</td><td class="num">3.8517</td></tr>
-<tr><td>monkey</td><td>medium</td><td>photogrammetry</td><td>psnr</td><td class="num">5.4486</td></tr>
-<tr><td>monkey</td><td>medium</td><td>point_cloud</td><td>chamfer</td><td class="num">0.6978</td></tr>
-<tr><td>monkey</td><td>medium</td><td>point_cloud</td><td>psnr</td><td class="num">18.5471</td></tr>
-<tr><td>monkey</td><td>sparse</td><td>point_cloud</td><td>chamfer</td><td class="num">0.6227</td></tr>
-<tr><td>monkey</td><td>sparse</td><td>point_cloud</td><td>psnr</td><td class="num">13.8572</td></tr>
-<tr><td>sphere_baseline</td><td>medium</td><td>photogrammetry</td><td>chamfer</td><td class="num">1.3183</td></tr>
-<tr><td>sphere_baseline</td><td>medium</td><td>photogrammetry</td><td>psnr</td><td class="num">4.3276</td></tr>
-<tr><td>sphere_baseline</td><td>medium</td><td>point_cloud</td><td>chamfer</td><td class="num">0.6104</td></tr>
-<tr><td>sphere_baseline</td><td>medium</td><td>point_cloud</td><td>psnr</td><td class="num">15.4060</td></tr>
-<tr><td>sphere_baseline</td><td>sparse</td><td>point_cloud</td><td>chamfer</td><td class="num">0.5483</td></tr>
-<tr><td>sphere_baseline</td><td>sparse</td><td>point_cloud</td><td>psnr</td><td class="num">12.3928</td></tr>
-<tr><td>stanford_bunny</td><td>medium</td><td>photogrammetry</td><td>chamfer</td><td class="num">6.0254</td></tr>
-<tr><td>stanford_bunny</td><td>medium</td><td>photogrammetry</td><td>psnr</td><td class="num">5.2230</td></tr>
-<tr><td>stanford_bunny</td><td>medium</td><td>point_cloud</td><td>chamfer</td><td class="num">0.6459</td></tr>
-<tr><td>stanford_bunny</td><td>medium</td><td>point_cloud</td><td>psnr</td><td class="num">16.4938</td></tr>
-<tr><td>stanford_bunny</td><td>sparse</td><td>point_cloud</td><td>chamfer</td><td class="num">0.5872</td></tr>
-<tr><td>stanford_bunny</td><td>sparse</td><td>point_cloud</td><td>psnr</td><td class="num">13.5663</td></tr>
+<tr><td>damaged_helmet</td><td>medium</td><td>photogrammetry</td><td>chamfer</td><td class="num">3.8630</td></tr>
+<tr><td>damaged_helmet</td><td>medium</td><td>photogrammetry</td><td>psnr</td><td class="num">8.2994</td></tr>
+<tr><td>damaged_helmet</td><td>medium</td><td>point_cloud</td><td>chamfer</td><td class="num">0.6017</td></tr>
+<tr><td>damaged_helmet</td><td>medium</td><td>point_cloud</td><td>psnr</td><td class="num">14.7919</td></tr>
+<tr><td>damaged_helmet</td><td>sparse</td><td>photogrammetry</td><td>chamfer</td><td class="num">0.6518</td></tr>
+<tr><td>damaged_helmet</td><td>sparse</td><td>photogrammetry</td><td>psnr</td><td class="num">7.7016</td></tr>
+<tr><td>damaged_helmet</td><td>sparse</td><td>point_cloud</td><td>chamfer</td><td class="num">0.5657</td></tr>
+<tr><td>damaged_helmet</td><td>sparse</td><td>point_cloud</td><td>psnr</td><td class="num">14.3724</td></tr>
+<tr><td>knot</td><td>medium</td><td>photogrammetry</td><td>chamfer</td><td class="num">0.8521</td></tr>
+<tr><td>knot</td><td>medium</td><td>photogrammetry</td><td>psnr</td><td class="num">8.0185</td></tr>
+<tr><td>knot</td><td>medium</td><td>point_cloud</td><td>chamfer</td><td class="num">0.5916</td></tr>
+<tr><td>knot</td><td>medium</td><td>point_cloud</td><td>psnr</td><td class="num">15.5997</td></tr>
+<tr><td>knot</td><td>sparse</td><td>photogrammetry</td><td>chamfer</td><td class="num">0.5373</td></tr>
+<tr><td>knot</td><td>sparse</td><td>photogrammetry</td><td>psnr</td><td class="num">6.3881</td></tr>
+<tr><td>knot</td><td>sparse</td><td>point_cloud</td><td>chamfer</td><td class="num">0.5540</td></tr>
+<tr><td>knot</td><td>sparse</td><td>point_cloud</td><td>psnr</td><td class="num">15.2343</td></tr>
+<tr><td>monkey</td><td>medium</td><td>photogrammetry</td><td>chamfer</td><td class="num">9.4383</td></tr>
+<tr><td>monkey</td><td>medium</td><td>photogrammetry</td><td>psnr</td><td class="num">7.8897</td></tr>
+<tr><td>monkey</td><td>medium</td><td>point_cloud</td><td>chamfer</td><td class="num">0.6808</td></tr>
+<tr><td>monkey</td><td>medium</td><td>point_cloud</td><td>psnr</td><td class="num">18.7835</td></tr>
+<tr><td>monkey</td><td>sparse</td><td>photogrammetry</td><td>chamfer</td><td class="num">0.6088</td></tr>
+<tr><td>monkey</td><td>sparse</td><td>photogrammetry</td><td>psnr</td><td class="num">9.0848</td></tr>
+<tr><td>monkey</td><td>sparse</td><td>point_cloud</td><td>chamfer</td><td class="num">0.6385</td></tr>
+<tr><td>monkey</td><td>sparse</td><td>point_cloud</td><td>psnr</td><td class="num">18.8772</td></tr>
+<tr><td>sphere_baseline</td><td>medium</td><td>photogrammetry</td><td>chamfer</td><td class="num">1.6897</td></tr>
+<tr><td>sphere_baseline</td><td>medium</td><td>photogrammetry</td><td>psnr</td><td class="num">5.6901</td></tr>
+<tr><td>sphere_baseline</td><td>medium</td><td>point_cloud</td><td>chamfer</td><td class="num">0.5956</td></tr>
+<tr><td>sphere_baseline</td><td>medium</td><td>point_cloud</td><td>psnr</td><td class="num">14.9464</td></tr>
+<tr><td>sphere_baseline</td><td>sparse</td><td>photogrammetry</td><td>chamfer</td><td class="num">1.2441</td></tr>
+<tr><td>sphere_baseline</td><td>sparse</td><td>photogrammetry</td><td>psnr</td><td class="num">5.6926</td></tr>
+<tr><td>sphere_baseline</td><td>sparse</td><td>point_cloud</td><td>chamfer</td><td class="num">0.5642</td></tr>
+<tr><td>sphere_baseline</td><td>sparse</td><td>point_cloud</td><td>psnr</td><td class="num">14.3868</td></tr>
+<tr><td>stanford_bunny</td><td>medium</td><td>photogrammetry</td><td>chamfer</td><td class="num">1.5233</td></tr>
+<tr><td>stanford_bunny</td><td>medium</td><td>photogrammetry</td><td>psnr</td><td class="num">7.3062</td></tr>
+<tr><td>stanford_bunny</td><td>medium</td><td>point_cloud</td><td>chamfer</td><td class="num">0.6390</td></tr>
+<tr><td>stanford_bunny</td><td>medium</td><td>point_cloud</td><td>psnr</td><td class="num">16.3661</td></tr>
+<tr><td>stanford_bunny</td><td>sparse</td><td>photogrammetry</td><td>chamfer</td><td class="num">0.5543</td></tr>
+<tr><td>stanford_bunny</td><td>sparse</td><td>photogrammetry</td><td>psnr</td><td class="num">8.6031</td></tr>
+<tr><td>stanford_bunny</td><td>sparse</td><td>point_cloud</td><td>chamfer</td><td class="num">0.6012</td></tr>
+<tr><td>stanford_bunny</td><td>sparse</td><td>point_cloud</td><td>psnr</td><td class="num">16.3476</td></tr>
   </tbody>
 </table>
 

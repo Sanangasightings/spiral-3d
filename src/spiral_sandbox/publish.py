@@ -130,19 +130,29 @@ def _render_scene_sections(
                 f'exposure="1.0"></model-viewer></figure>'
             )
         out.append('</div>')
-        # Sample captures (first 4 per density)
+        # Sample captures: pick 4 indexes spread across the trajectory
+        # so the preview spans the elevation sweep (low → high), not the
+        # first four near-low-elevation views.
         for k in sorted(k for k in figures if k.startswith(f"{scene}/")):
             density = k.split("/", 1)[1]
-            names = figures[k][:4]
-            if not names:
+            all_names = figures[k]
+            if not all_names:
                 continue
+            n_total = len(all_names)
+            if n_total <= 4:
+                picks = all_names
+            else:
+                picks = [
+                    all_names[int(round(i * (n_total - 1) / 3))]
+                    for i in range(4)
+                ]
             out.append(
                 f'<p style="font-size: 13px; margin: 8px 0 4px;">'
                 f'{density} captures '
-                f'<span class="pill">{len(figures[k])} total</span></p>'
+                f'<span class="pill">{n_total} total</span></p>'
             )
             out.append('<div class="gallery sample">')
-            for n in names:
+            for n in picks:
                 out.append(
                     f'  <img src="figures/{n}" alt="{n}" loading="lazy">'
                 )
